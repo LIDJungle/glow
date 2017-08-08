@@ -3,7 +3,7 @@ player.dimming = (function(p){
     my.timeouts = [];
 
     my.adjust = function(){
-        if (p.preview) {return;} else {console.log("We are not in preview mode.");}
+        if (p.preview) {return;}
         localforage.getItem('weather').then(function(v) {
             var sunrise = new Date();
             sunrise.setHours(v.sun_phase.sunrise.hour);
@@ -19,7 +19,6 @@ player.dimming = (function(p){
                 my.timeouts['dimming'] = setTimeout(function(){my.adjust();}, 1000);
             } else {
                 var clouds = '70';
-                //JL().debug("Sunrise: "+sunrise+" Sunset: "+sunset+" Cloud cover: "+clouds);
                 console.log("Sunrise: "+sunrise+" Sunset: "+sunset+" Cloud cover: "+clouds);
                 var now = new Date();
                 if (now > sunrise && now < sunset) {

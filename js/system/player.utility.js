@@ -20,8 +20,22 @@ player.utility = (function (p) {
         return my.isNumber(n) && (n % 2 == 0);
     };
 
-    my.isNumber= function (n){
+    my.isNumber = function (n){
         return n === parseFloat(n);
+    };
+
+    my.parseTagString = function(str){
+        var tagStr = '';
+        if (str !== '') {
+            var tags = JSON.parse(str);
+            if (tags !== 'null') {
+                for (var i = 0; i < tags.length; i++) {
+                    tagStr += tags[i].name + ", ";
+                }
+                tagStr = tagStr.substring(0, tagStr.length - 2);
+            }
+        }
+        return tagStr;
     };
 
     return my;
