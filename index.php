@@ -56,6 +56,10 @@ header("Content-type:text/html");
 <script src="/glow/js/control.js"></script>
 <script src="/glow/js/system/player.network.js"></script>
 <script src="/glow/js/system/player.pop.js"></script>
+<script src="/glow/js/system/player.startup.js"></script>
+<script src="/glow/js/system/player.data.js"></script>
+<script src="/glow/js/system/player.canvas.js"></script>
+<script src="/glow/js/system/player.dimming.js"></script>
 <script src="/glow/js/anim/player.anim.js"></script>
 <script src="/glow/js/transitions/player.transitions.js"></script>
 
