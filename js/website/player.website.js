@@ -5,10 +5,10 @@ player.website = (function (p) {
     my.startPlaylistMode = function () {
         console.log('We are working with a playlist.');
 
-        p.displayId = get_var('id');
-        p.param[0] = {'h': get_var('h'), 'w': get_var('w'), 'cr': get_var('crate')};
+        p.displayId = p.utility.get_var('id');
+        p.param[0] = {'h': p.utility.get_var('h'), 'w': p.utility.get_var('w'), 'cr': p.utility.get_var('crate')};
         localforage.setItem('param', p.param);
-        var itemStr = get_var('items');
+        var itemStr = p.utility.get_var('items');
         var items = itemStr.split(',');
         my.goFullScreen();
 
@@ -19,7 +19,7 @@ player.website = (function (p) {
         console.log("Items: ", items);
         // We need to load the presentation cache.
         for (i = 0; i < items.length; i++) {
-            p.loadPreview(items[i]);
+            my.loadPreview(items[i]);
         }
 
         // Always on for playlist mode.
@@ -100,6 +100,40 @@ player.website = (function (p) {
         $('.canvas-holder').css("top", topMargin);
         $('.canvas-holder').css("left", leftMargin);
 
+    };
+
+    /* Playlist functions */
+    my.checkLoadStatus = function(items){
+        console.log("Checking load status");
+        var complete = true;
+        for (i = 0; i < items.length; i++) {
+            if (typeof(my.schedule.schedule[0].presentations[items[i]]) === 'undefined') {
+                JL().fatal("We don't have "+items[i]);
+                complete = false;
+            }
+        }
+        if (complete) {
+            p.loadNextPresentation();
+        } else {
+            clearTimeout(my.timeouts['load']);
+            my.timeouts['load'] = setTimeout(function(){my.checkLoadStatus(items);}, 1000);
+        }
+    };
+
+    my.loadPreview = function(id) {
+        console.log("Getting presentation id: "+id);
+        $.ajax({
+            type: 'GET',
+            url: p.presentationUrl,
+            data: {
+                id: id
+            },
+            success: function(data) {
+                data.json = JSON.parse(data.json);
+                console.log("Storing Data", data);
+                p.schedule.schedule[0].presentations[id] = data;
+            }
+        });
     };
     return my;
 }(player))

@@ -1,4 +1,4 @@
-player.dimming = (function(){
+player.dimming = (function(p){
     var my = {};
     my.timeouts = [];
 
@@ -38,4 +38,4 @@ player.dimming = (function(){
     };
 
     return my;
-});
+}(player));

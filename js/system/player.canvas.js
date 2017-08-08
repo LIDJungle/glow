@@ -14,7 +14,10 @@ player.canvas = (function (p) {
         fabric.Object.prototype.transparentCorners = false;
         p.canvases['c1'] = new fabric.StaticCanvas('c1');
         p.canvases['c2'] = new fabric.StaticCanvas('c2');
-
+        p.canvases['c1'].setWidth(p.param[0].w);
+        p.canvases['c1'].setHeight(p.param[0].h);
+        p.canvases['c2'].setWidth(p.param[0].w);
+        p.canvases['c2'].setHeight(p.param[0].h);
 
 
     }

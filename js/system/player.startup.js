@@ -23,12 +23,12 @@ player.startup = (function (p) {
         canvas.add(text);
         var err = new fabric.Text('Loading presentations,', {fill: '#FFF', top: 10, fontSize: 30});
         var err1 = new fabric.Text('please wait.', {fill: '#FFF', top: 42, fontSize: 30});
-        var err2 = new fabric.Text(my.error, {fill: '#FFF', top: 74, fontSize: 30});
+        var err2 = new fabric.Text(p.error, {fill: '#FFF', top: 74, fontSize: 30});
         canvas.add(err);
         canvas.add(err1);
         canvas.add(err2);
         canvas.renderAll();
-        my.anim.load(canvas);
+        p.anim.load(canvas);
     };
 
     my.drawDefaultPresentation = function(canvas) {
@@ -41,10 +41,10 @@ player.startup = (function (p) {
         rect.set('anim', 'blink');
         var text = new fabric.Text("time", {fill: '#FFF', anim: 'time', left: 15, fontSize: 8});
         canvas.add(text);
-        var err = new fabric.Text(my.error, {fill: '#FFF', top: 10, fontSize: 10});
+        var err = new fabric.Text(p.error, {fill: '#FFF', top: 10, fontSize: 10});
         canvas.add(err);
         canvas.renderAll();
-        my.anim.load(canvas);
+        p.anim.load(canvas);
     };
 
     return my;

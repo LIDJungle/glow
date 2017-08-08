@@ -1,25 +1,20 @@
 var player = (function () {
     var my = {};
     my.dev = false;
-    my.mode = get_var('mode');
 
-    /*
-        Some of these should not be globals.
-     */
+
     my.timeouts = [];
     my.time = Date.now();
     my.weather = new Weather();
     my.canvases = [];
-
-    // Questionable below this line
-	my.restart = true;
     my.displayId = '';
-    my.param = [];
     my.schedule = {};
     my.online = '';
+    my.param = [];
+    my.error = '';
+	my.restart = true;
     my.currentLoopPosition = 0;
     my.preview = false;
-    my.error = '';
     my.pixelRatio = '1';
 
 
@@ -41,91 +36,37 @@ var player = (function () {
     /*
      *   init starts the player.
      *   call from doc.body.onload
+     *
      */
 
     my.init = function() {
 		JL().debug("\n\n\n");
         JL().debug("Player started");
+        my.mode = my.utility.get_var('mode');
 
-        my.canvas.initialize();
-        my.fonts.configure();
-        my.startup.start();
-
-
-		
-		// Handle playlist only mode from website
+        // Handle playlist only mode from website
         if (my.mode === 'playlist') {
             my.website.startPlaylistMode();
         } else {
-			// Start master player here.
-
-			clearTimeout(my.timeouts['main']);
-            my.timeouts['main'] = setTimeout(function() {
-                $.when(my.getDisplayId()).then(function () {
-                    my.waitForLocalCache();
-					$.when(my.network.check(my.pingURL)).then(function () {
-                        $.when(my.data.updateDisplayParameters()).then(function () {
-                            $.when(my.data.updateWeather()).then(function () {
-                                $.when(my.data.updateTides()).then(function () {
-                                    my.data.updateSchedule();
-                                });
-                            });
-                        });
-					});
-                });
-            }, 5000);
-
+            // Start getting data
+            my.data.startDataLoop();
+            // Watch cache and start player when ready
+            my.data.waitForLocalCache();
         }
     };
 
+    my.startPlayerLoop = function(schedule) {
+        my.schedule = schedule;
+        JL().fatalException("Schedule data", my.schedule);
 
-
-    my.waitForLocalCache = function () {
-        console.log("Waiting");
-        // No good starting the player without params.
-        localforage.getItem('param').then(function(param){
-            if (param === null || param === 'null') {
-                my.error = 'Local Params not found, waiting on Cloud.';
-				//JL().debug('Local Params not found, waiting on Cloud.');
-                // Set timer and keep checking param cache
-                clearTimeout(my.timeouts['cache']);
-				my.timeouts['cache'] = setTimeout(function() {my.waitForLocalCache();}, 100);
-            } else {
-                JL().fatalException("Startup parameters: ", param);
-                my.param = param;
-                my.canvas1.setWidth(param[0].w);
-                my.canvas1.setHeight(param[0].h);
-                my.canvas2.setWidth(param[0].w);
-                my.canvas2.setHeight(param[0].h);
-
-
-                // The schedule is useless without the params. delay first check.
-                localforage.getItem('schedule').then(function(scheduleCache){
-                    if (scheduleCache === 'null') {
-                        my.error = 'Local schedule not found, waiting on Cloud.';
-                        // Set timer and keep checking schedule cache
-						clearTimeout(my.timeouts['cache']);
-						my.timeouts['cache'] = setTimeout(function() {my.waitForLocalCache();}, 100);
-                    } else {
-                        ////////////////////////////////////////////////////////////////////////////////////
-                        // START PLAYER HERE
-                        //
-                        ////////////////////////////////////////////////////////////////////////////////////
-                        my.schedule = scheduleCache;
-                        JL().fatalException("Schedule data", my.schedule);
-
-						console.log("Next presentation Id", my.schedule.schedule[0].masterPlaylist[0]);
-						if (my.preview) {
-							console.log("We are in preview mode.", my.preview);
-							my.website.goFullScreen();
-						} else {
-							console.log("We are not in preview mode.", my.preview);
-						}
-						my.loadNextPresentation();
-                    }
-                });
-            }
-        });
+        console.log("Next presentation Id", my.schedule.schedule[0].masterPlaylist[0]);
+        if (my.preview) {
+            console.log("We are in preview mode.", my.preview);
+            my.website.goFullScreen();
+        } else {
+            console.log("We are not in preview mode.", my.preview);
+        }
+        my.loadNextPresentation();
     };
 
 
@@ -176,10 +117,10 @@ var player = (function () {
 			clearTimeout(my.timeouts['presentation']);
 			my.timeouts['presentation'] = setTimeout(function(){my.loadNextPresentation();}, my.param[0].cr * 1000);
         }
-        if (isEven(my.currentLoopPosition)) {
-            my.loadPresentation(my.canvas2, presId, coid);
+        if (my.utility.isEven(my.currentLoopPosition)) {
+            my.loadPresentation(my.canvases['c2'], presId, coid);
         } else {
-            my.loadPresentation(my.canvas1, presId, coid);
+            my.loadPresentation(my.canvases['c1'], presId, coid);
         }
     };
 
@@ -221,7 +162,7 @@ var player = (function () {
 		//my.time = Date.now();
 		clearTimeout(my.timeouts['change']);
 		my.timeouts['change'] = setTimeout(function(){
-            if (isEven(currPos)) {
+            if (my.utility.isEven(currPos)) {
                 $("#c2").css("zIndex", 1);
                 $("#c").css("zIndex", 0);
             } else {
@@ -231,91 +172,5 @@ var player = (function () {
         }, 500);
     };
 
-
-    my.getDisplayId = function(){
-        var get_id = get_var('id');
-        if (get_id !== false) {
-            console.log("Player started in preview mode. Display Id: "+get_id);
-            my.displayId = get_id;
-            my.preview = true;
-            $('.dimmer').hide();
-        } else {
-            var p = $.ajax({
-                type: 'GET',
-                url: my.localDisplayUrl
-            }).done(
-                function (data) {
-                    console.log("Done getting display data.");
-                    if (data !== 'error') {
-                        JL().debug("Get display Id: " + data);
-                        my.displayId = data;
-                    } else {
-                        JL().debug("There was an error getting the display Id.");
-                    }
-                }
-            );
-            return p;
-        }
-    };
-	
-	/* Playlist functions */
-    my.checkLoadStatus = function(items){
-        console.log("Checking load status");
-        var complete = true;
-        for (i = 0; i < items.length; i++) {
-            if (typeof(my.schedule.schedule[0].presentations[items[i]]) === 'undefined') {
-                JL().fatal("We don't have "+items[i]);
-                complete = false;
-            }
-        }
-        if (complete) {
-            my.loadNextPresentation();
-        } else {
-			clearTimeout(my.timeouts['load']);
-			my.timeouts['load'] = setTimeout(function(){my.checkLoadStatus(items);}, 1000);
-        }
-    };
-
-    my.loadPreview = function(id) {
-        console.log("Getting presentation id: "+id);
-        $.ajax({
-            type: 'GET',
-            url: my.presentationUrl,
-            data: {
-                id: id
-            },
-            success: function(data) {
-                data.json = JSON.parse(data.json);
-                console.log("Storing Data", data);
-                my.schedule.schedule[0].presentations[id] = data;
-            }
-        });
-    };
-
-
     return my;
 }());
-
-
-function get_var(var_name){
-    var query = window.location.search.substring(1);
-    var vars = query.split("&");
-    for (var i=0;i<vars.length;i++) {
-        var pair = vars[i].split("=");
-        if(pair[0] == var_name){return pair[1];}
-    }
-    return(false);
-}
-
-function cvtSql(date) {
-    var t = date.split(/[- :]/);
-    return new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
-}
-
-function isEven(n){
-    return isNumber(n) && (n % 2 == 0);
-}
-
-function isNumber(n){
-    return n === parseFloat(n);
-}

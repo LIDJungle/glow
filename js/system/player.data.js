@@ -2,6 +2,55 @@ player.data = (function (p) {
     var my = {};
     my.timeouts = [];
 
+    my.startDataLoop = function () {
+        clearTimeout(my.timeouts['main']);
+        my.timeouts['main'] = setTimeout(function() {
+            $.when(my.getDisplayId()).then(function () {
+                $.when(p.network.check(my.pingURL)).then(function () {
+                    $.when(my.updateDisplayParameters()).then(function () {
+                        $.when(my.updateWeather()).then(function () {
+                            $.when(my.updateTides()).then(function () {
+                                my.updateSchedule();
+                            });
+                        });
+                    });
+                });
+            });
+        }, 5000);
+    };
+
+    my.waitForLocalCache = function () {
+        console.log("Waiting");
+        // No good starting the player without params.
+        localforage.getItem('param').then(function(param){
+            if (param === null || param === 'null') {
+                p.error = 'Local Params not found, waiting on Cloud.';
+                clearTimeout(my.timeouts['cache']);
+                my.timeouts['cache'] = setTimeout(function() {my.waitForLocalCache();}, 100);
+            } else {
+                JL().fatalException("Startup parameters: ", param);
+                p.param = param;
+
+                // Set up the canvases and get the schedule
+                p.canvas.initialize();
+                // Load fonts
+                p.fonts.configure();
+                // Show startup presentation
+                p.startup.start();
+
+                localforage.getItem('schedule').then(function(scheduleCache){
+                    if (scheduleCache === 'null') {
+                        p.error = 'Local schedule not found, waiting on Cloud.';
+                        clearTimeout(my.timeouts['cache']);
+                        my.timeouts['cache'] = setTimeout(function() {my.waitForLocalCache();}, 100);
+                    } else {
+                        p.startPlayerLoop(scheduleCache);
+                    }
+                });
+            }
+        });
+    };
+
     my.updateSchedule = function() {
         if (p.online) {
             $.ajax({
@@ -26,29 +75,29 @@ player.data = (function (p) {
                         my.schedule = data;
                         JL().debug("Retrieved schedule data");
                     });
-                    if (!(my.mode === 'playlist' || my.mode === 'master')) {
+                    if (!(p.mode === 'playlist' || p.mode === 'master')) {
                         console.log('Sending proof of play.');
-                        my.pop.send();
+                        p.pop.send();
 
                         // Here's where we need to react to any update/reboot commands
                         // Reboot
                         if (data.reboot === 'true') {
                             JL().debug("Rebooting computer due to request from cloud. data.reboot is "+data.reboot);
-                            $.ajax({url: my.rebootUrl});
+                            $.ajax({url: p.rebootUrl});
                         }
                         // Update
                         if (data.update === 'true') {
                             console.log("Update is true.");
                             JL().debug("Update is true.");
                             // AJAX call here to retrieve and execute update script.
-                            $.ajax({url: my.updateUrl});
+                            $.ajax({url: p.updateUrl});
                         } else {
                             console.log("Update is false.");
                             JL().debug("Update is false.");
                         }
                     }
                     clearTimeout(my.timeouts['schedule']);
-                    my.timeouts['schedule'] = setTimeout(function(){my.updateSchedule();}, my.heartRate * 1000);
+                    my.timeouts['schedule'] = setTimeout(function(){my.updateSchedule();}, p.heartRate * 1000);
                 }
             ).error(
                 function (jqXHR, textStatus, errorThrown) {
@@ -64,6 +113,32 @@ player.data = (function (p) {
             p.network.check(p.pingURL);
             clearTimeout(my.timeouts['schedule']);
             my.timeouts['schedule'] = setTimeout(function(){my.updateSchedule();}, 1000);
+        }
+    };
+
+    my.getDisplayId = function(){
+        var get_id = p.utility.get_var('id');
+        if (get_id !== false) {
+            console.log("Player started in preview mode. Display Id: "+get_id);
+            p.displayId = get_id;
+            p.preview = true;
+            $('.dimmer').hide();
+        } else {
+            var a = $.ajax({
+                type: 'GET',
+                url: p.localDisplayUrl
+            }).done(
+                function (data) {
+                    console.log("Done getting display data.");
+                    if (data !== 'error') {
+                        JL().debug("Get display Id: " + data);
+                        p.displayId = data;
+                    } else {
+                        JL().debug("There was an error getting the display Id.");
+                    }
+                }
+            );
+            return a;
         }
     };
 
