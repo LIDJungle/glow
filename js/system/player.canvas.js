@@ -1,5 +1,6 @@
 player.canvas = (function (p) {
     var my = {};
+    my.timeouts = [];
 
     my.initialize = function() {
         // Monkey patch in support for anim parameter
@@ -26,7 +27,7 @@ player.canvas = (function (p) {
         //my.time = Date.now();
         clearTimeout(my.timeouts['change']);
         my.timeouts['change'] = setTimeout(function(){
-            if (my.utility.isEven(currPos)) {
+            if (p.utility.isEven(currPos)) {
                 $("#c2").css("zIndex", 1);
                 $("#c").css("zIndex", 0);
             } else {
@@ -34,6 +35,39 @@ player.canvas = (function (p) {
                 $("#c").css("zIndex", 1);
             }
         }, 500);
+    };
+
+    /*
+    Advances the player loop and calls loadPresentation.
+     */
+    my.loadNextPresentation = function () {
+        console.log("Current loop is "+p.currentLoopPosition+" and masterPlaylist has "+p.schedule.schedule[0].masterPlaylist.length+" items.");
+        //JL().debug("Current loop is "+my.currentLoopPosition+" and masterPlaylist has "+my.schedule.schedule[0].masterPlaylist.length+" items.");
+        if (p.currentLoopPosition == p.schedule.schedule[0].masterPlaylist.length) {
+            JL().debug("Resetting loop");
+            p.currentLoopPosition = 0;
+        }
+
+        var presId = p.schedule.schedule[0].masterPlaylist[p.currentLoopPosition].pid;
+        var coid = p.schedule.schedule[0].masterPlaylist[p.currentLoopPosition].coid;
+        if (p.mode == 'playlist' || p.mode == 'master') {
+            p.website.setSiteInfo(presId);
+            // check cache for updates.
+            localforage.getItem('param').then(function(param) {
+                p.param = param;
+                clearTimeout(my.timeouts['presentation']);
+                my.timeouts['presentation'] = setTimeout(function(){my.loadNextPresentation();}, p.param[0].cr * 1000);
+            });
+        } else {
+            p.dimming.adjust();
+            clearTimeout(my.timeouts['presentation']);
+            my.timeouts['presentation'] = setTimeout(function(){my.loadNextPresentation();}, p.param[0].cr * 1000);
+        }
+        if (p.utility.isEven(p.currentLoopPosition)) {
+            my.loadPresentation(p.canvases['c2'], presId, coid);
+        } else {
+            my.loadPresentation(p.canvases['c1'], presId, coid);
+        }
     };
 
     my.loadPresentation = function(canvas, presid, coid){

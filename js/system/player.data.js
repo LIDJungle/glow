@@ -67,7 +67,7 @@ player.data = (function (p) {
         } else {
             console.log("We are not in preview mode.", p.preview);
         }
-        p.loadNextPresentation();
+        p.canvas.loadNextPresentation();
     };
 
     my.updateSchedule = function() {

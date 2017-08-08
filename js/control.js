@@ -55,36 +55,5 @@ var player = (function () {
         }
     };
 
-    my.loadNextPresentation = function () {
-        console.log("Current loop is "+my.currentLoopPosition+" and masterPlaylist has "+my.schedule.schedule[0].masterPlaylist.length+" items.");
-		//JL().debug("Current loop is "+my.currentLoopPosition+" and masterPlaylist has "+my.schedule.schedule[0].masterPlaylist.length+" items.");
-        if (my.currentLoopPosition == my.schedule.schedule[0].masterPlaylist.length) {
-            JL().debug("Resetting loop");
-            my.currentLoopPosition = 0;
-        }
-
-        var presId = my.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].pid;
-		var coid = my.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].coid;
-        if (my.mode == 'playlist' || my.mode == 'master') {
-            my.website.setSiteInfo(presId);
-            // check cache for updates.
-            localforage.getItem('param').then(function(param) {
-                my.param = param;
-				clearTimeout(my.timeouts['presentation']);
-				my.timeouts['presentation'] = setTimeout(function(){my.loadNextPresentation();}, my.param[0].cr * 1000);
-            });
-        } else {
-            my.dimming.adjust();
-			clearTimeout(my.timeouts['presentation']);
-			my.timeouts['presentation'] = setTimeout(function(){my.loadNextPresentation();}, my.param[0].cr * 1000);
-        }
-        if (my.utility.isEven(my.currentLoopPosition)) {
-            my.canvas.loadPresentation(my.canvases['c2'], presId, coid);
-        } else {
-            my.canvas.loadPresentation(my.canvases['c1'], presId, coid);
-        }
-    };
-
-
     return my;
 }());
