@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0a09ceba-accd-4510-a3d3-aa06ba4e1705" name="Default" comment="This is a working implementation with control.js down to under 200 lines.&#10;&#10;Going to bed tonight, but this will be ready for work tomorrow.">
+    <list default="true" id="0a09ceba-accd-4510-a3d3-aa06ba4e1705" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/control.js" afterPath="$PROJECT_DIR$/js/control.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/website/player.website.js" afterPath="$PROJECT_DIR$/js/website/player.website.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/system/player.data.js" afterPath="$PROJECT_DIR$/js/system/player.data.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,8 +18,8 @@
       <file leaf-file-name="control.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/control.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="88" column="4" lean-forward="false" selection-start-line="88" selection-start-column="4" selection-end-line="88" selection-end-column="4" />
+            <state relative-caret-position="476">
+              <caret line="56" column="4" lean-forward="false" selection-start-line="56" selection-start-column="4" selection-end-line="56" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -58,7 +58,7 @@
       <file leaf-file-name="player.canvas.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/system/player.canvas.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="482">
+            <state relative-caret-position="833">
               <caret line="49" column="29" lean-forward="true" selection-start-line="49" selection-start-column="29" selection-end-line="49" selection-end-column="29" />
               <folding />
             </state>
@@ -68,8 +68,8 @@
       <file leaf-file-name="player.data.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/system/player.data.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="30" column="4" lean-forward="false" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="4" />
+            <state relative-caret-position="584">
+              <caret line="66" column="16" lean-forward="true" selection-start-line="66" selection-start-column="16" selection-end-line="66" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -136,12 +136,12 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/js/system/player.canvasControl.js" />
         <option value="$PROJECT_DIR$/index.php" />
-        <option value="$PROJECT_DIR$/js/system/player.data.js" />
         <option value="$PROJECT_DIR$/js/system/player.startup.js" />
         <option value="$PROJECT_DIR$/js/system/player.utility.js" />
         <option value="$PROJECT_DIR$/js/system/player.dimming.js" />
         <option value="$PROJECT_DIR$/js/system/player.canvas.js" />
         <option value="$PROJECT_DIR$/js/website/player.website.js" />
+        <option value="$PROJECT_DIR$/js/system/player.data.js" />
         <option value="$PROJECT_DIR$/js/control.js" />
       </list>
     </option>
@@ -251,7 +251,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1502142749269</updated>
-      <workItem from="1502142761955" duration="23810000" />
+      <workItem from="1502142761955" duration="24090000" />
     </task>
     <task id="LOCAL-00001" summary="Getting started">
       <created>1502165545930</created>
@@ -330,11 +330,18 @@
       <option name="project" value="LOCAL" />
       <updated>1502174438498</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Still chipping away at it. Code is getting much more organized.">
+      <created>1502174740367</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1502174740367</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23810000" />
+    <option name="totallyTimeSpent" value="24090000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="167" y="0" width="1400" height="1000" extended-state="0" />
@@ -368,7 +375,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Getting started" />
     <MESSAGE value="This is a working implementation with control.js down to under 200 lines.&#10;&#10;Going to bed tonight, but this will be ready for work tomorrow." />
-    <option name="LAST_COMMIT_MESSAGE" value="This is a working implementation with control.js down to under 200 lines.&#10;&#10;Going to bed tonight, but this will be ready for work tomorrow." />
+    <MESSAGE value="Still chipping away at it. Code is getting much more organized." />
+    <option name="LAST_COMMIT_MESSAGE" value="Still chipping away at it. Code is getting much more organized." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -560,14 +568,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/system/player.data.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="30" column="4" lean-forward="false" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/system/player.utility.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="612">
@@ -586,7 +586,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/system/player.canvas.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
+        <state relative-caret-position="833">
           <caret line="49" column="29" lean-forward="true" selection-start-line="49" selection-start-column="29" selection-end-line="49" selection-end-column="29" />
           <folding />
         </state>
@@ -600,10 +600,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/system/player.data.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="584">
+          <caret line="66" column="16" lean-forward="true" selection-start-line="66" selection-start-column="16" selection-end-line="66" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/control.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="88" column="4" lean-forward="false" selection-start-line="88" selection-start-column="4" selection-end-line="88" selection-end-column="4" />
+        <state relative-caret-position="476">
+          <caret line="56" column="4" lean-forward="false" selection-start-line="56" selection-start-column="4" selection-end-line="56" selection-end-column="4" />
           <folding />
         </state>
       </provider>

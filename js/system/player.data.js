@@ -44,11 +44,30 @@ player.data = (function (p) {
                         clearTimeout(my.timeouts['cache']);
                         my.timeouts['cache'] = setTimeout(function() {my.waitForLocalCache();}, 100);
                     } else {
-                        p.startPlayerLoop(scheduleCache);
+                        my.startPlayerLoop(scheduleCache);
                     }
                 });
             }
         });
+    };
+
+    /**
+     *  Called from my.waitForLocalCache(); when local cache is ready.
+     *  Do not call directly.
+     *
+     */
+    my.startPlayerLoop = function(schedule) {
+        p.schedule = schedule;
+        JL().fatalException("Schedule data", p.schedule);
+
+        console.log("Next presentation Id", p.schedule.schedule[0].masterPlaylist[0]);
+        if (p.preview) {
+            console.log("We are in preview mode.", p.preview);
+            p.website.goFullScreen();
+        } else {
+            console.log("We are not in preview mode.", p.preview);
+        }
+        p.loadNextPresentation();
     };
 
     my.updateSchedule = function() {

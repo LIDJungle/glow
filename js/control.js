@@ -55,21 +55,6 @@ var player = (function () {
         }
     };
 
-    my.startPlayerLoop = function(schedule) {
-        my.schedule = schedule;
-        JL().fatalException("Schedule data", my.schedule);
-
-        console.log("Next presentation Id", my.schedule.schedule[0].masterPlaylist[0]);
-        if (my.preview) {
-            console.log("We are in preview mode.", my.preview);
-            my.website.goFullScreen();
-        } else {
-            console.log("We are not in preview mode.", my.preview);
-        }
-        my.loadNextPresentation();
-    };
-
-
     my.loadNextPresentation = function () {
         console.log("Current loop is "+my.currentLoopPosition+" and masterPlaylist has "+my.schedule.schedule[0].masterPlaylist.length+" items.");
 		//JL().debug("Current loop is "+my.currentLoopPosition+" and masterPlaylist has "+my.schedule.schedule[0].masterPlaylist.length+" items.");
