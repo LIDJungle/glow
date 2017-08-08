@@ -80,6 +80,26 @@ player.website = (function (p) {
         canvas.renderAll();
     };
 
+    my.goFullScreen = function() {
+        //console.log("going full screen.");
+        // Get height and width of browser window.
+        var browserWidth = $(window).width();
+        var browserHeight = $(window).height();
+        var hpr = Math.floor(browserHeight / p.param[0].h);
+        p.pixelRatio = Math.floor(browserWidth / p.param[0].w);
+        if (my.pixelRatio > hpr) {p.pixelRatio = hpr;}
+        var previewWidth= p.pixelRatio * p.param[0].w;
+        var previewHeight = p.pixelRatio * p.param[0].h;
+        var leftMargin = (browserWidth - previewWidth) / 2;
+        var topMargin = (browserHeight - previewHeight) / 2;
 
+        console.log("Browser Dims: "+browserHeight+" X "+browserWidth);
+        console.log("Presentation Dims: "+p.param[0].w+" X "+p.param[0].h);
+        console.log("Pixel ratio is: "+p.pixelRatio);
+
+        $('.canvas-holder').css("top", topMargin);
+        $('.canvas-holder').css("left", leftMargin);
+
+    };
     return my;
 }(player))
