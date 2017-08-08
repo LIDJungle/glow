@@ -36,9 +36,12 @@ header("Content-type:text/html");
 </head>
 <body style="background-color: black; color: white; margin: 0; width: 100%; height: 100%;">
 <div class="dimmer">&nbsp</div>
-<div class="canvas-holder">
+<div id="single" class="canvas-holder">
 <canvas id="c1" class="c1"></canvas>
 <canvas id="c2" class="c2"></canvas>
+</div>
+<div id="multi" class="canvas-holder">
+
 </div>
 	<!-- Initialize web fonts here. They need to be on page to get loaded. -->
 	<div style="color: transparent; height: 1px; overflow: hidden;" id="fontContainer">

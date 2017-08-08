@@ -17,6 +17,9 @@ var player = (function () {
     my.preview = false;
     my.pixelRatio = '1';
 
+    my.multi = true;
+    my.multiStyle = '4up';
+
 
 	// Configuration
 	my.version = "1.0";

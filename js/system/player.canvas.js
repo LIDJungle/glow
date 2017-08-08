@@ -13,13 +13,67 @@ player.canvas = (function (p) {
         })(fabric.Object.prototype.toObject);
         fabric.Object.NUM_FRACTION_DIGITS = 17;
         fabric.Object.prototype.transparentCorners = false;
+
+
         p.canvases['c1'] = new fabric.StaticCanvas('c1');
         p.canvases['c2'] = new fabric.StaticCanvas('c2');
         p.canvases['c1'].setWidth(p.param[0].w);
         p.canvases['c1'].setHeight(p.param[0].h);
         p.canvases['c2'].setWidth(p.param[0].w);
         p.canvases['c2'].setHeight(p.param[0].h);
+
+        if (p.multi === true){
+            switch (p.multiStyle) {
+                case '4up':
+                    $('<canvas>').attr({
+                        id: 'm1'
+                    }).css({
+                        position: 'absolute',
+                        top: '0',
+                        left: '0'
+                    }).appendTo('#multi');
+                    p.canvases['m1'] = new fabric.StaticCanvas('m1');
+                    p.canvases['m1'].setWidth((p.param[0].w / 2));
+                    p.canvases['m1'].setHeight((p.param[0].h / 2));
+
+                    $('<canvas>').attr({
+                        id: 'm2'
+                    }).css({
+                        position: 'absolute',
+                        top: '0',
+                        left: (p.param[0].w / 2)
+                    }).appendTo('#multi');
+                    p.canvases['m2'] = new fabric.StaticCanvas('m2');
+                    p.canvases['m2'].setWidth((p.param[0].w / 2));
+                    p.canvases['m2'].setHeight((p.param[0].h / 2));
+
+                    $('<canvas>').attr({
+                        id: 'm3'
+                    }).css({
+                        position: 'absolute',
+                        top: (p.param[0].h / 2),
+                        left: '0'
+                    }).appendTo('#multi');
+                    p.canvases['m3'] = new fabric.StaticCanvas('m3');
+                    p.canvases['m3'].setWidth((p.param[0].w / 2));
+                    p.canvases['m3'].setHeight((p.param[0].h / 2));
+
+                    $('<canvas>').attr({
+                        id: 'm4'
+                    }).css({
+                        position: 'absolute',
+                        top: (p.param[0].h / 2),
+                        left: (p.param[0].w / 2)
+                    }).appendTo('#multi');
+                    p.canvases['m4'] = new fabric.StaticCanvas('m4');
+                    p.canvases['m4'].setWidth((p.param[0].w / 2));
+                    p.canvases['m4'].setHeight((p.param[0].h / 2));
+
+                    break;
+            }
+        }
     };
+
 
     my.change = function(currPos) {
         //var diff = Date.now() - my.time;
