@@ -74,7 +74,7 @@ var player = (function () {
 					});
                 });
             }, 5000);
-            
+
         }
     };
 
