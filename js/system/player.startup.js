@@ -1,6 +1,16 @@
 player.startup = (function (p) {
     var my = {};
 
+    my.start = function() {
+        // Draw default opening presentation.
+        if (p.mode === 'playlist' || p.mode === 'master') {
+            $('.canvas-holder').css('top', '52px');
+            my.drawDefaultWebPresentation(p.canvases['c1']);
+        } else {
+            my.drawDefaultPresentation(p.canvases['c1']);
+        }
+    }
+
     my.drawDefaultWebPresentation = function(canvas) {
         canvas.clear();
         canvas.setBackgroundColor('#FFFFFF', canvas.renderAll.bind(canvas));
