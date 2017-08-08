@@ -135,5 +135,14 @@ player.website = (function (p) {
             }
         });
     };
+
+    my.setSiteInfo = function(presId) {
+        console.log("My mode is: "+p.mode);
+        var version = p.schedule.schedule[0].presentations[presId].version;
+        var name = p.schedule.schedule[0].presentations[presId].name;
+
+        $('#statusLeft', parent.document).text(presId+"v"+version+": "+name);
+        $('#statusRight', parent.document).text("Tags: "+p.utility.parseTagString(p.schedule.schedule[0].presentations[presId].tags));
+    };
     return my;
 }(player))

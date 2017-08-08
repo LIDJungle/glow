@@ -81,13 +81,8 @@ var player = (function () {
         var presId = my.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].pid;
 		var coid = my.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].coid;
         if (my.mode == 'playlist' || my.mode == 'master') {
-            console.log("My mode is: "+my.mode);
-            var version = my.schedule.schedule[0].presentations[presId].version;
-            var name = my.schedule.schedule[0].presentations[presId].name;
-
-            $('#statusLeft', parent.document).text(presId+"v"+version+": "+name);
-            $('#statusRight', parent.document).text("Tags: "+my.utility.parseTagString(my.schedule.schedule[0].presentations[presId].tags));
-            // Here we need to add in code to show presentation info and check cache for updates.
+            my.website.setSiteInfo(presId);
+            // check cache for updates.
             localforage.getItem('param').then(function(param) {
                 my.param = param;
 				clearTimeout(my.timeouts['presentation']);
