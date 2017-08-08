@@ -54,6 +54,8 @@ header("Content-type:text/html");
 <script src="/glow/js/lib/jsnlog.min.js"></script>
 
 <script src="/glow/js/control.js"></script>
+<script src="/glow/js/system/player.network.js"></script>
+<script src="/glow/js/system/player.pop.js"></script>
 <script src="/glow/js/anim/player.anim.js"></script>
 <script src="/glow/js/transitions/player.transitions.js"></script>
 
