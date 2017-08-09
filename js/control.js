@@ -53,8 +53,12 @@ var player = (function () {
         } else {
             // Start getting data
             my.data.startDataLoop();
+            // We wait 5 seconds while the blinker blinks
             // Watch cache and start player when ready
-            my.data.waitForLocalCache();
+            clearTimeout(my.timeouts['main']);
+            my.timeouts['main'] = setTimeout(function() {
+                my.data.waitForLocalCache();
+            }, 5000);
         }
     };
 

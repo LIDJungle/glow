@@ -40,7 +40,7 @@ header("Content-type:text/html");
 <canvas id="c1" class="c1"></canvas>
 <canvas id="c2" class="c2"></canvas>
 </div>
-<div id="multi" class="canvas-holder">
+<div id="multi" class="canvas-holder" style="z-index: 100">
 
 </div>
 	<!-- Initialize web fonts here. They need to be on page to get loaded. -->
@@ -65,6 +65,7 @@ header("Content-type:text/html");
 <script src="/glow/js/system/player.canvas.js"></script>
 <script src="/glow/js/system/player.dimming.js"></script>
 <script src="/glow/js/system/player.utility.js"></script>
+<script src="/glow/js/website/player.website.js"></script>
 <script src="/glow/js/anim/player.anim.js"></script>
 <script src="/glow/js/transitions/player.transitions.js"></script>
 

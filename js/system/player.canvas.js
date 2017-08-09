@@ -32,9 +32,11 @@ player.canvas = (function (p) {
                         top: '0',
                         left: '0'
                     }).appendTo('#multi');
-                    p.canvases['m1'] = new fabric.StaticCanvas('m1');
-                    p.canvases['m1'].setWidth((p.param[0].w / 2));
-                    p.canvases['m1'].setHeight((p.param[0].h / 2));
+                    p.canvases['m1'] = {};
+                    p.canvases['m1'].canvas = new fabric.StaticCanvas('m1');
+                    p.canvases['m1'].factor = .5;
+                    p.canvases['m1'].canvas.setWidth((p.param[0].w / 2));
+                    p.canvases['m1'].canvas.setHeight((p.param[0].h / 2));
 
                     $('<canvas>').attr({
                         id: 'm2'
@@ -43,9 +45,11 @@ player.canvas = (function (p) {
                         top: '0',
                         left: (p.param[0].w / 2)
                     }).appendTo('#multi');
-                    p.canvases['m2'] = new fabric.StaticCanvas('m2');
-                    p.canvases['m2'].setWidth((p.param[0].w / 2));
-                    p.canvases['m2'].setHeight((p.param[0].h / 2));
+                    p.canvases['m2'] = {};
+                    p.canvases['m2'].canvas = new fabric.StaticCanvas('m2');
+                    p.canvases['m2'].factor = .5;
+                    p.canvases['m2'].canvas.setWidth((p.param[0].w / 2));
+                    p.canvases['m2'].canvas.setHeight((p.param[0].h / 2));
 
                     $('<canvas>').attr({
                         id: 'm3'
@@ -54,9 +58,11 @@ player.canvas = (function (p) {
                         top: (p.param[0].h / 2),
                         left: '0'
                     }).appendTo('#multi');
-                    p.canvases['m3'] = new fabric.StaticCanvas('m3');
-                    p.canvases['m3'].setWidth((p.param[0].w / 2));
-                    p.canvases['m3'].setHeight((p.param[0].h / 2));
+                    p.canvases['m3'] = {};
+                    p.canvases['m3'].canvas = new fabric.StaticCanvas('m3');
+                    p.canvases['m3'].factor = .5;
+                    p.canvases['m3'].canvas.setWidth((p.param[0].w / 2));
+                    p.canvases['m3'].canvas.setHeight((p.param[0].h / 2));
 
                     $('<canvas>').attr({
                         id: 'm4'
@@ -65,9 +71,11 @@ player.canvas = (function (p) {
                         top: (p.param[0].h / 2),
                         left: (p.param[0].w / 2)
                     }).appendTo('#multi');
-                    p.canvases['m4'] = new fabric.StaticCanvas('m4');
-                    p.canvases['m4'].setWidth((p.param[0].w / 2));
-                    p.canvases['m4'].setHeight((p.param[0].h / 2));
+                    p.canvases['m4'] = {};
+                    p.canvases['m4'].canvas = new fabric.StaticCanvas('m4');
+                    p.canvases['m4'].factor = .5;
+                    p.canvases['m4'].canvas.setWidth((p.param[0].w / 2));
+                    p.canvases['m4'].canvas.setHeight((p.param[0].h / 2));
 
                     break;
             }
@@ -153,5 +161,39 @@ player.canvas = (function (p) {
         });
     };
 
+    my.fitMulti = function (obj) {
+        var canvas = obj.canvas;
+        var factor = obj.factor;
+        //canvas.setHeight(canvas.getHeight() * factor);
+        //canvas.setWidth(canvas.getWidth() * factor);
+        if (canvas.backgroundImage) {
+            // Need to scale background images as well
+            var bi = canvas.backgroundImage;
+            bi.width = bi.width * factor; bi.height = bi.height * factor;
+        }
+        var objects = canvas.getObjects();
+        console.log("Objects", objects);
+        var origObj = objects.length;
+        for (i = 0; i < origObj; i++) {
+            //for (var i in objects) {
+            var o = objects[i];
+            var scaleX = o.scaleX;
+            var scaleY = o.scaleY;
+            var left = o.left;
+            var top = o.top;
+
+            var tempScaleX = scaleX * factor;
+            var tempScaleY = scaleY * factor;
+            var tempLeft = left * factor;
+            var tempTop = top * factor;
+
+            o.scaleX = tempScaleX;
+            o.scaleY = tempScaleY;
+            o.left = tempLeft;
+            o.top = tempTop;
+            o.setCoords();
+        }
+        canvas.renderAll();
+    };
     return my;
 }(player));

@@ -15,6 +15,7 @@ player.fonts = (function (p) {
         $.each(fonts, function(i, v){
             $('#fontContainer').append('<p style="font-family: '+v+'">a</p>');
         });
+        console.log("Fonts configured");
     };
 
     return my;

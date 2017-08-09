@@ -3,28 +3,27 @@ player.data = (function (p) {
     my.timeouts = [];
 
     my.startDataLoop = function () {
-        clearTimeout(my.timeouts['main']);
-        my.timeouts['main'] = setTimeout(function() {
-            $.when(my.getDisplayId()).then(function () {
-                $.when(p.network.check(my.pingURL)).then(function () {
-                    $.when(my.updateDisplayParameters()).then(function () {
-                        $.when(my.updateWeather()).then(function () {
-                            $.when(my.updateTides()).then(function () {
-                                my.updateSchedule();
-                            });
-                        });
-                    });
+        $.when(my.getDisplayId()).then(function () {
+            $.when(p.network.check(my.pingURL)).then(function () {
+                $.when(my.updateDisplayParameters()).then(function () {
+                    my.updateSchedule();
+                    my.updateWeather();
+                    my.updateTides();
                 });
             });
-        }, 5000);
+        });
     };
 
     my.waitForLocalCache = function () {
-        console.log("Waiting");
+        console.log("Waiting for cache");
+
+        // Load fonts
+        p.fonts.configure();
+
         // No good starting the player without params.
         localforage.getItem('param').then(function(param){
             if (param === null || param === 'null') {
-                p.error = 'Local Params not found, waiting on Cloud.';
+                p.error = 'Local display parameters not found, waiting on Cloud.';
                 clearTimeout(my.timeouts['cache']);
                 my.timeouts['cache'] = setTimeout(function() {my.waitForLocalCache();}, 100);
             } else {
@@ -33,8 +32,7 @@ player.data = (function (p) {
 
                 // Set up the canvases and get the schedule
                 p.canvas.initialize();
-                // Load fonts
-                p.fonts.configure();
+
                 // Show startup presentation
                 p.startup.start();
 
@@ -45,6 +43,18 @@ player.data = (function (p) {
                         my.timeouts['cache'] = setTimeout(function() {my.waitForLocalCache();}, 100);
                     } else {
                         my.startPlayerLoop(scheduleCache);
+                        p.canvas.loadPresentation(p.canvases['m1'].canvas, '855', '10');
+                        p.canvas.loadPresentation(p.canvases['m2'].canvas, '856', '10');
+                        p.canvas.loadPresentation(p.canvases['m3'].canvas, '1096', '10');
+                        p.canvas.loadPresentation(p.canvases['m4'].canvas, '2108', '10');
+
+                        setTimeout(function () {
+                            p.canvas.fitMulti(p.canvases['m1']);
+                            p.canvas.fitMulti(p.canvases['m2']);
+                            p.canvas.fitMulti(p.canvases['m3']);
+                            p.canvas.fitMulti(p.canvases['m4']);
+                        }, 500);
+
                     }
                 });
             }
@@ -163,17 +173,16 @@ player.data = (function (p) {
 
     my.updateDisplayParameters = function () {
         if (p.online) {
-            $.ajax(
+            return $.ajax(
                 {type: 'GET', url: p.paramUrl, data: {id: p.displayId, online: p.online}}
             ).done(
                 function(data) {
                     data = eval(data);
                     data[0].dimming = JSON.parse(data[0].dimming);
+                    p.param = data;
                     JL().fatalException('displayParam', data);
                     localforage.setItem('param', data).then(function(v) {
-                        // Do stuff here.
-                        p.param = data;
-                        console.log("Retrieved param data");
+                        console.log("Stored param data");
                     });
                     p.online = true;
                     clearTimeout(my.timeouts['param']);
