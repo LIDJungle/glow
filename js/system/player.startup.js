@@ -5,9 +5,9 @@ player.startup = (function (p) {
         // Draw default opening presentation.
         if (p.mode === 'playlist' || p.mode === 'master') {
             $('.canvas-holder').css('top', '52px');
-            my.drawDefaultWebPresentation(p.canvases['c1']);
+            my.drawDefaultWebPresentation(p.canvases['c1'].canvas);
         } else {
-            my.drawDefaultPresentation(p.canvases['c1']);
+            my.drawDefaultPresentation(p.canvases['c1'].canvas);
         }
     }
 

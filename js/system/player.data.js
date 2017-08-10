@@ -43,18 +43,7 @@ player.data = (function (p) {
                         my.timeouts['cache'] = setTimeout(function() {my.waitForLocalCache();}, 100);
                     } else {
                         my.startPlayerLoop(scheduleCache);
-                        p.canvas.loadPresentation(p.canvases['m1'].canvas, '855', '10');
-                        p.canvas.loadPresentation(p.canvases['m2'].canvas, '856', '10');
-                        p.canvas.loadPresentation(p.canvases['m3'].canvas, '1096', '10');
-                        p.canvas.loadPresentation(p.canvases['m4'].canvas, '2108', '10');
-
-                        setTimeout(function () {
-                            p.canvas.fitMulti(p.canvases['m1']);
-                            p.canvas.fitMulti(p.canvases['m2']);
-                            p.canvas.fitMulti(p.canvases['m3']);
-                            p.canvas.fitMulti(p.canvases['m4']);
-                        }, 500);
-
+                        //p.canvas.loadMultiPresentation();
                     }
                 });
             }

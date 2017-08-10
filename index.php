@@ -6,45 +6,58 @@ header("Content-type:text/html");
 <head>
 <link rel="stylesheet" href="/glow/fonts/stylesheet.css">
 <style>
-.canvas-holder {
-    position: absolute;
-    background-color: black;
-}
-.dimmer {
-    position: fixed;
-    left: 0;
-    top: 0;
-    background-color: #000000;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 100;
-}
-.c1 {
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 1;
-}
-.c2 {
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 0;
-}
+    .canvas-holder {
+        position: absolute;
+        background-color: black;
+    }
+    .dimmer {
+        position: fixed;
+        left: 0;
+        top: 0;
+        background-color: #000000;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+    }
+    canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    #c1 {
+        z-index: 1;
+    }
+    #fontContainer {
+        color: transparent;
+        height: 1px;
+        overflow: hidden;
+    }
+    body {
+        background-color: black;
+        color: white;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+    }
 </style>
 </head>
-<body style="background-color: black; color: white; margin: 0; width: 100%; height: 100%;">
-<div class="dimmer">&nbsp</div>
-<div id="single" class="canvas-holder">
-<canvas id="c1" class="c1"></canvas>
-<canvas id="c2" class="c2"></canvas>
-</div>
-<div id="multi" class="canvas-holder" style="z-index: 100">
+<body>
+    <div class="dimmer">&nbsp</div>
+    <div id="single_1" class="canvas-holder">
+        <canvas id="c1"></canvas>
+    </div>
+    <div id="single_2" class="canvas-holder">
+        <canvas id="c2"></canvas>
+    </div>
+    <div id="multi_1" class="canvas-holder" style="z-index: 2">
 
-</div>
+    </div>
+    <div id="multi_2" class="canvas-holder">
+
+    </div>
 	<!-- Initialize web fonts here. They need to be on page to get loaded. -->
-	<div style="color: transparent; height: 1px; overflow: hidden;" id="fontContainer">
+	<div id="fontContainer">
 	
 	</div>
 </body>
