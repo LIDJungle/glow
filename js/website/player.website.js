@@ -1,6 +1,7 @@
 player.website = (function (p) {
     var my = {};
     my.timeouts = [];
+    my.pixelRatio = 1;
 
     my.startPlaylistMode = function () {
         console.log('We are working with a playlist.');
@@ -36,10 +37,10 @@ player.website = (function (p) {
 
 
     my.zoomFullScreenPlayer = function(canvas) {
-        console.log("Zooming by "+p.pixelRatio);
-        my.zoom(p.pixelRatio, canvas);
-        if (p.pixelRatio > 4) {
-            var pixelMask = 'img/'+p.pixelRatio+'.png';
+        console.log("Zooming by "+my.pixelRatio);
+        my.zoom(my.pixelRatio, canvas);
+        if (my.pixelRatio > 4) {
+            var pixelMask = 'img/'+my.pixelRatio+'.png';
             canvas.setOverlayImage(pixelMask, canvas.renderAll.bind(canvas));
         }
 
@@ -86,16 +87,16 @@ player.website = (function (p) {
         var browserWidth = $(window).width();
         var browserHeight = $(window).height();
         var hpr = Math.floor(browserHeight / p.param[0].h);
-        p.pixelRatio = Math.floor(browserWidth / p.param[0].w);
-        if (my.pixelRatio > hpr) {p.pixelRatio = hpr;}
-        var previewWidth= p.pixelRatio * p.param[0].w;
-        var previewHeight = p.pixelRatio * p.param[0].h;
+        my.pixelRatio = Math.floor(browserWidth / p.param[0].w);
+        if (my.pixelRatio > hpr) {my.pixelRatio = hpr;}
+        var previewWidth= my.pixelRatio * p.param[0].w;
+        var previewHeight = my.pixelRatio * p.param[0].h;
         var leftMargin = (browserWidth - previewWidth) / 2;
         var topMargin = (browserHeight - previewHeight) / 2;
 
         console.log("Browser Dims: "+browserHeight+" X "+browserWidth);
         console.log("Presentation Dims: "+p.param[0].w+" X "+p.param[0].h);
-        console.log("Pixel ratio is: "+p.pixelRatio);
+        console.log("Pixel ratio is: "+my.pixelRatio);
 
         $('.canvas-holder').css("top", topMargin);
         $('.canvas-holder').css("left", leftMargin);

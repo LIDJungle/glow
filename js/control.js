@@ -15,7 +15,6 @@ var player = (function () {
 	my.restart = true;
     my.currentLoopPosition = 0;
     my.preview = false;
-    my.pixelRatio = '1';
 
     my.multi = true;
     my.multiStyle = '4up';
@@ -26,15 +25,17 @@ var player = (function () {
     my.heartRate = 300; // 300 seconds - 5 minutes
     my.weatherUpdate = 900; // 15 minutes
     my.paramUpdate = 900; // 15 minutes
-	my.pingURL = 'http://shineemc.com/shine2/root.php';
-	my.popUrl = 'http://shineemc.com/shine2/data/player/storePop.php';
-	my.presentationUrl = 'http://shineemc.com/shine2/data/fabric/loadPresentation.php';
-	my.heartbeatUrl = 'http://shineemc.com/shine2/data/player/getHeartbeat.php';
-	my.paramUrl = 'http://shineemc.com/shine2/data/player/getDisplayParam.php';
+    my.popUrl = 'http://shineemc.com/api/public/index.php/storePop';
+    my.heartbeatUrl = 'http://shineemc.com/api/public/index.php/getSchedule';
+    my.paramUrl = 'http://shineemc.com/api/public/index.php/getDisplay';
+    my.pingURL = 'http://shineemc.com/api/public/index.php/ping';
+    my.presentationUrl = 'http://shineemc.com/api/public/index.php/loadPresentation';
+
+	//my.presentationUrl = 'http://shineemc.com/shine2/data/fabric/loadPresentation.php';
+
 	my.rebootUrl = 'data/reboot.php';
 	my.updateUrl = 'data/update.php';
 	my.localDisplayUrl = 'data/getDisplayId.php';
-    
 
     /*
      *   init starts the player.
@@ -53,12 +54,8 @@ var player = (function () {
         } else {
             // Start getting data
             my.data.startDataLoop();
-            // We wait 5 seconds while the blinker blinks
             // Watch cache and start player when ready
-            clearTimeout(my.timeouts['main']);
-            my.timeouts['main'] = setTimeout(function() {
-                my.data.waitForLocalCache();
-            }, 5000);
+            my.data.waitForLocalCache();
         }
     };
 

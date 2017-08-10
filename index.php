@@ -25,7 +25,7 @@ header("Content-type:text/html");
         top: 0;
         left: 0;
     }
-    #c1 {
+    #single_1 {
         z-index: 1;
     }
     #fontContainer {
@@ -50,7 +50,7 @@ header("Content-type:text/html");
     <div id="single_2" class="canvas-holder">
         <canvas id="c2"></canvas>
     </div>
-    <div id="multi_1" class="canvas-holder" style="z-index: 2">
+    <div id="multi_1" class="canvas-holder">
 
     </div>
     <div id="multi_2" class="canvas-holder">

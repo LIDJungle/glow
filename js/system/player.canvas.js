@@ -44,20 +44,6 @@ player.canvas = (function (p) {
         }
     };
 
-
-    my.change = function(currPos) {
-        clearTimeout(my.timeouts['change']);
-        my.timeouts['change'] = setTimeout(function(){
-            if (p.utility.isEven(currPos)) {
-                $("#c2").css("zIndex", 1);
-                $("#c1").css("zIndex", 0);
-            } else {
-                $("#c2").css("zIndex", 0);
-                $("#c1").css("zIndex", 1);
-            }
-        }, 500);
-    };
-
     my.multiChange = function (type) {
         clearTimeout(my.timeouts['change']);
         my.timeouts['change'] = setTimeout(function(){
@@ -129,6 +115,7 @@ player.canvas = (function (p) {
         p.canvas.multiChange(type);
     };
 
+    // Manually loads 4 presentations for testing.
     my.loadMultiPresentation = function () {
         p.canvas.loadPresentation(p.canvases['m1'], '855', '10');
         p.canvas.loadPresentation(p.canvases['m2'], '856', '10');

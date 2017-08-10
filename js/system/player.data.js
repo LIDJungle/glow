@@ -42,7 +42,11 @@ player.data = (function (p) {
                         clearTimeout(my.timeouts['cache']);
                         my.timeouts['cache'] = setTimeout(function() {my.waitForLocalCache();}, 100);
                     } else {
-                        my.startPlayerLoop(scheduleCache);
+                        // We wait 5 seconds while the blinker blinks
+                        clearTimeout(my.timeouts['main']);
+                        my.timeouts['main'] = setTimeout(function() {
+                            my.startPlayerLoop(scheduleCache);
+                        }, 5000);
                         //p.canvas.loadMultiPresentation();
                     }
                 });
@@ -74,8 +78,8 @@ player.data = (function (p) {
             $.ajax({
                 type: 'GET',
                 url: p.heartbeatUrl,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
+                //contentType: "application/json; charset=utf-8",
+                //dataType: "json",
                 data: {
                     displayId: p.displayId,
                     previewMode: p.preview,
@@ -165,8 +169,9 @@ player.data = (function (p) {
             return $.ajax(
                 {type: 'GET', url: p.paramUrl, data: {id: p.displayId, online: p.online}}
             ).done(
-                function(data) {
-                    data = eval(data);
+                function(d) {
+                    var data = [];
+                    data[0] = eval(d);
                     data[0].dimming = JSON.parse(data[0].dimming);
                     p.param = data;
                     JL().fatalException('displayParam', data);
