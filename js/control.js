@@ -20,7 +20,7 @@ var player = (function () {
 	my.time = Date.now();
 
 	// Configuration
-	my.version = "1.0";
+	my.version = "1.1";
     my.heartRate = 300; // 300 seconds - 5 minutes
     my.weatherUpdate = 900; // 15 minutes
     my.paramUpdate = 900; // 15 minutes
@@ -77,13 +77,12 @@ var player = (function () {
             my.timeouts['main'] = setTimeout(function() {
                 $.when(my.getDisplayId()).then(function () {
                     my.waitForLocalCache();
+
 					$.when(my.checkNetwork()).then(function () {
                         $.when(my.updateParam()).then(function () {
-                            $.when(my.updateWeather()).then(function () {
-                                $.when(my.updateTides()).then(function () {
-                                    my.updateSchedule();
-                                });
-                            });
+                            my.updateSchedule();
+                            my.updateWeather();
+                            my.updateTides();
                         });
 					});
                 });
@@ -476,19 +475,25 @@ var player = (function () {
             }
         }, 500);
     };
-
+/*
+    Check network tries to load the ping url via ajax.
+    If it fails, we are offline.
+    It is fired whenever a system task fails, and will begin rechecking the server every 15 seconds.
+    Once the server is back online, the timing loop is broken. We don't reset the timeout.
+    The task will be fired again if an ajax call fails.
+ */
     my.checkNetwork = function() {
         return $.get(my.pingURL, function(){
             JL().debug("CheckNetwork: We are online.");
 			console.log("CheckNetwork: We are online.");
             my.online = true;
-			/* TODO:
-				IF (time condition) {reboot;}
-			*/
         }).fail(function(jqXHR, exception) {
             JL().fatalException("CheckNetwork: We are offline.", jqXHR);
 			console.log("CheckNetwork: We are offline.");
             my.online = false;
+            my.timeouts['checkNetwork'] = setTimeout(function(){
+                my.checkNetwork();
+            }, 15000);
         });
     };
 
