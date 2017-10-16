@@ -47,7 +47,6 @@ player.data = (function (p) {
                         my.timeouts['main'] = setTimeout(function() {
                             my.startPlayerLoop(scheduleCache);
                         }, 5000);
-                        //p.canvas.loadMultiPresentation();
                     }
                 });
             }

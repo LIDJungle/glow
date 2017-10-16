@@ -25,7 +25,7 @@ header("Content-type:text/html");
         top: 0;
         left: 0;
     }
-    #single_1 {
+    #wall1 {
         z-index: 1;
     }
     #fontContainer {
@@ -44,16 +44,10 @@ header("Content-type:text/html");
 </head>
 <body>
     <div class="dimmer">&nbsp</div>
-    <div id="single_1" class="canvas-holder">
-        <canvas id="c1"></canvas>
-    </div>
-    <div id="single_2" class="canvas-holder">
-        <canvas id="c2"></canvas>
-    </div>
-    <div id="multi_1" class="canvas-holder">
+    <div id="wall1" class="canvas-holder">
 
     </div>
-    <div id="multi_2" class="canvas-holder">
+    <div id="wall2" class="canvas-holder">
 
     </div>
 	<!-- Initialize web fonts here. They need to be on page to get loaded. -->

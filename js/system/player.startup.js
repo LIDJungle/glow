@@ -3,12 +3,14 @@ player.startup = (function (p) {
 
     my.start = function() {
         // Draw default opening presentation.
+        p.canvas.buildCanvases('single', 1);
         if (p.mode === 'playlist' || p.mode === 'master') {
             $('.canvas-holder').css('top', '52px');
-            my.drawDefaultWebPresentation(p.canvases['c1'].canvas);
+            my.drawDefaultWebPresentation(p.canvases[0].canvas);
         } else {
-            my.drawDefaultPresentation(p.canvases['c1'].canvas);
+            my.drawDefaultPresentation(p.canvases[0].canvas);
         }
+        my.currentLoopPosition++;
     }
 
     my.drawDefaultWebPresentation = function(canvas) {

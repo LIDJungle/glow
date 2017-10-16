@@ -1,19 +1,19 @@
 player.pop = (function(p) {
     var my = {};
 
-    my.add = function (presId, coid, version) {
+    my.add = function (presId, coid, version, count) {
         var pop = [];
-        console.log("Proof of play: "+presId+" v: "+version);
+        console.log("Proof of play. Presid: "+presId+" v: "+version+" CompanyId: "+coid+" Count: "+count);
         localforage.getItem('pop').then(function(v){
             if (v === null) {
                 pop = [];
                 var now = new Date();
-                pop.push({'displayId': p.displayId, 'coid': coid, 'time': (now.getTime() / 1000), 'duration': p.param[0].cr, 'presId': presId, 'version': version});
+                pop.push({'displayId': p.displayId, 'coid': coid, 'time': (now.getTime() / 1000), 'duration': p.param[0].cr, 'presId': presId, 'version': version, 'count': count});
                 localforage.setItem('pop', pop);
             } else {
                 pop = v;
                 var now = new Date();
-                pop.push({'displayId': p.displayId, 'coid': coid, 'time': (now.getTime() / 1000), 'duration': p.param[0].cr, 'presId': presId, 'version': version});
+                pop.push({'displayId': p.displayId, 'coid': coid, 'time': (now.getTime() / 1000), 'duration': p.param[0].cr, 'presId': presId, 'version': version, 'count': count});
                 localforage.setItem('pop', pop);
             }
         });

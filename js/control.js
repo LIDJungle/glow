@@ -13,7 +13,6 @@ var player = (function () {
     my.param = [];
     my.error = '';
 	my.restart = true;
-    my.currentLoopPosition = 0;
     my.preview = false;
 
     my.multi = true;
@@ -47,6 +46,7 @@ var player = (function () {
 		JL().debug("\n\n\n");
         JL().debug("Player started");
         my.mode = my.utility.get_var('mode');
+        my.canvas.initialize();
 
         // Handle playlist only mode from website
         if (my.mode === 'playlist') {
