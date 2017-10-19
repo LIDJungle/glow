@@ -1,26 +1,26 @@
 player.pop = (function(p) {
     var my = {};
 
-    my.add = function (presId, coid, version, count) {
 
+    my.add = function (popentries) {
         var pop = [];
-        console.log("Proof of play. Presid: "+presId+" v: "+version+" CompanyId: "+coid+" Count: "+count+" Duration: "+p.param[0].cr);
+        var now = new Date();
         localforage.getItem('pop').then(function(v){
-            if (v === null) {
-                pop = [];
-                var now = new Date();
-                pop.push({'displayId': p.displayId, 'coid': coid, 'time': (now.getTime() / 1000), 'duration': p.param[0].cr, 'presId': presId, 'version': version, 'count': count});
-                localforage.setItem('pop', pop);
-            } else {
-                pop = v;
-                var now = new Date();
-                pop.push({'displayId': p.displayId, 'coid': coid, 'time': (now.getTime() / 1000), 'duration': p.param[0].cr, 'presId': presId, 'version': version, 'count': count});
-                console.log("POP length is: "+v.length);
-                localforage.setItem('pop', pop);
-            }
-
+            if (v === null) {pop = [];} else {pop = v;}
+            $.each(popentries, function (idx, entry){
+                console.log("Proof of play. Presid: "+entry['presId']+" v: "+entry['version']+" CompanyId: "+entry['coid']+" Count: "+entry['count']);
+                pop.push({
+                    'displayId': p.displayId,
+                    'coid': entry['coid'],
+                    'time': (now.getTime() / 1000),
+                    'duration': p.param[0].cr,
+                    'presId': entry['presId'],
+                    'version': entry['version'],
+                    'count': entry['count']
+                });
+            });
+            localforage.setItem('pop', pop);
         });
-
     };
 
     my.send = function() {

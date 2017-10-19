@@ -72,17 +72,20 @@ player.canvas = (function (p) {
         my.buildCanvases(p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].type, p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].count);
         //console.log("Loading "+p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].presentations.length+" presentations.");
 
+        var popStorage = [];
         for (var i=0;i<p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].count;i++) {
-            var presentation = p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].presentations[i];
-            var loop = my.currentLoopPosition;
+            // load presentation and create the POP entry
+            my.loadPresentation(p.canvases[i], p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].presentations[i]);
+            popStorage.push({
+                'presId': p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].presentations[i].pid,
+                'coid': p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].presentations[i].coid,
+                'version': p.schedule.schedule[0].presentations[p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].presentations[i].pid].presentation.version,
+                'count': p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].count
 
-            my.loadPresentation(p.canvases[i], presentation);
-            if (!my.preview) {
-                setTimeout(function () {
-                    p.pop.add(presentation.pid, presentation.coid, p.schedule.schedule[0].presentations[presentation.pid].presentation.version, p.schedule.schedule[0].masterPlaylist[loop].count);
-                    console.log("Current loop is ",p.schedule.schedule[0].masterPlaylist[loop]);
-                }, i * 20);
-            }
+            });
+        }
+        if (!my.preview) {
+            p.pop.add(popStorage);
         }
         my.change(my.currentLoopPosition);
         my.currentLoopPosition++;
