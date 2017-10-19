@@ -1,8 +1,8 @@
 player.transitions = (function(p){
     var my = {};
     my.load = function(c) {
-        console.log("We have to c: ", c);
-        console.log("Transition type: "+typeof(c.transition));
+        //console.log("We have to c: ", c);
+        //console.log("Transition type: "+typeof(c.transition));
         switch (c.transition) {
             case 'slide-right':
                 slide_right($('.'+ p.canvas.containerClass), p.canvas.getWidth());

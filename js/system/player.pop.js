@@ -2,8 +2,9 @@ player.pop = (function(p) {
     var my = {};
 
     my.add = function (presId, coid, version, count) {
+
         var pop = [];
-        console.log("Proof of play. Presid: "+presId+" v: "+version+" CompanyId: "+coid+" Count: "+count);
+        console.log("Proof of play. Presid: "+presId+" v: "+version+" CompanyId: "+coid+" Count: "+count+" Duration: "+p.param[0].cr);
         localforage.getItem('pop').then(function(v){
             if (v === null) {
                 pop = [];
@@ -14,43 +15,40 @@ player.pop = (function(p) {
                 pop = v;
                 var now = new Date();
                 pop.push({'displayId': p.displayId, 'coid': coid, 'time': (now.getTime() / 1000), 'duration': p.param[0].cr, 'presId': presId, 'version': version, 'count': count});
+                console.log("POP length is: "+v.length);
                 localforage.setItem('pop', pop);
             }
+
         });
 
     };
 
     my.send = function() {
         JL().debug("Sending POP.");
+        console.log("Sending POP.");
+        //my.filterPop();
         localforage.getItem('pop').then(function(v) {
-            if (v === null) {return;}
-            // Foreach POP if displayId doesn't match current, discard. Removes any left over from testing.
-            var totalRecords = v.length;
-            for (var i in v) {
-                if (v[i].displayId !== p.displayId) {
-                    JL().debug("Current Display is "+p.displayId+" and POP display is "+v[i].displayId+", discarding.");
-                    v.splice(i, 1);
-                }
-            }
-
             if (v.length > 200) {
                 var batch = v.splice(0, 200);
             } else {
                 var batch = v;
             }
 
-            if (my.online) {
-                JL().debug("POP records: "+totalRecords+". Sending: "+batch.length+".");
-                console.log("batch", batch);
+            if (p.online) {
+                JL().debug("POP records: "+v.length+". Sending: "+batch.length+".");
+                console.log("POP records: "+v.length+". Sending: "+batch.length+".", batch);
+                console.log("DisplayId is ", p.displayId);
                 $.ajax({
                     type: 'POST',
                     url: p.popUrl,
                     data: {
+                        displayId: p.displayId,
                         pop: batch
                     }
                 }).done(
                     function (data) {
                         JL().debug("Done: Proof of play data successfully sent.\n\n");
+                        console.log("Done: Proof of play data successfully sent.");
                         localforage.getItem('pop').then(function(pop) {
                             var b = pop.splice(batch.length, pop.length);
                             localforage.setItem('pop', b);
@@ -58,14 +56,33 @@ player.pop = (function(p) {
                     }
                 ).error(
                     function (jqXHR, textStatus, errorThrown) {
+                        console.log("POP Error.");
                         JL().debug(textStatus);
                         JL().debug(jqXHR);
                         JL().debug("There was an issue sending POP data to the server.");
                     }
                 );
+            } else {
+                console.log("POP not sent. We are offline.");
             }
         });
     };
 
+    my.filterPop = function () {
+        localforage.getItem('pop').then(function(v) {
+            if (v === null) {
+                return;
+            }
+            // Foreach POP if displayId doesn't match current, discard. Removes any left over from testing.
+            for (var i in v) {
+                if (v[i].displayId !== p.displayId) {
+                    JL().debug("Current Display is " + p.displayId + " and POP display is " + v[i].displayId + ", discarding.");
+                    v.splice(i, 1);
+                }
+            }
+            localforage.setItem('pop', v);
+        });
+        return 0;
+    };
     return my;
 }(player));

@@ -72,12 +72,16 @@ player.canvas = (function (p) {
         my.buildCanvases(p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].type, p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].count);
         //console.log("Loading "+p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].presentations.length+" presentations.");
 
-        for (var i=0;i<p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].presentations.length;i++) {
+        for (var i=0;i<p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].count;i++) {
             var presentation = p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].presentations[i];
+            var loop = my.currentLoopPosition;
 
             my.loadPresentation(p.canvases[i], presentation);
             if (!my.preview) {
-                p.pop.add(presentation.pid, presentation.coid, p.schedule.schedule[0].presentations[presentation.pid].presentation.version, p.schedule.schedule[0].masterPlaylist[my.currentLoopPosition].presentations.length);
+                setTimeout(function () {
+                    p.pop.add(presentation.pid, presentation.coid, p.schedule.schedule[0].presentations[presentation.pid].presentation.version, p.schedule.schedule[0].masterPlaylist[loop].count);
+                    console.log("Current loop is ",p.schedule.schedule[0].masterPlaylist[loop]);
+                }, i * 20);
             }
         }
         my.change(my.currentLoopPosition);
@@ -87,7 +91,7 @@ player.canvas = (function (p) {
     };
 
     my.loadPresentation = function(canvasObj, presentation){
-        JL().debug("Loading presentation "+presentation.presentation+".");
+        JL().debug("Loading presentation "+presentation.pid+".");
 
         canvasObj.canvas.setBackgroundColor('#FFFFFF', canvasObj.canvas.renderAll.bind(canvasObj.canvas));
         canvasObj.canvas.loadFromJSON(p.schedule.schedule[0].presentations[presentation.pid].presentation.json, function(){
@@ -100,14 +104,14 @@ player.canvas = (function (p) {
     };
 
     my.buildCanvases = function (type, count) {
-        console.log("Building canvases: "+type+" Count: "+count);
+        //console.log("Building canvases: "+type+" Count: "+count);
         // Create tracking ids
         var ids = [];
         for (var i = 1; i<= count; i++) {
             p.canvases['canvas'+i] = {};
             ids.push(my.nextWall+'_canvas'+i);
         }
-        console.log("Creating ids: ", ids);
+        //console.log("Creating ids: ", ids);
         switch (type) {
             case 'single':
                 // Build canvas
@@ -146,7 +150,7 @@ player.canvas = (function (p) {
                     p.canvases[idx].canvas.setWidth((p.param[0].w / 2));
                     p.canvases[idx].canvas.setHeight((p.param[0].h / 2));
                     my.walls[my.nextWall].canvases.push(id);
-                    console.log("Created "+id);
+                    //console.log("Created "+id);
                 });
 
                 // Position canvases

@@ -14,6 +14,7 @@ var player = (function () {
     my.error = '';
 	my.restart = true;
     my.preview = false;
+    my.forage = false;
 
     my.multi = true;
     my.multiStyle = '4up';
