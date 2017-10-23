@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0a09ceba-accd-4510-a3d3-aa06ba4e1705" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/system/player.canvas.js" afterPath="$PROJECT_DIR$/js/system/player.canvas.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/lib/weather.class.js" afterPath="$PROJECT_DIR$/js/lib/weather.class.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/system/player.pop.js" afterPath="$PROJECT_DIR$/js/system/player.pop.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,6 +30,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="weather.class.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/lib/weather.class.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="283">
+              <caret line="23" column="5" lean-forward="false" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="player.canvas.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/system/player.canvas.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -43,8 +53,8 @@
       <file leaf-file-name="player.pop.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/system/player.pop.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="833">
-              <caret line="49" column="86" lean-forward="true" selection-start-line="49" selection-start-column="86" selection-end-line="49" selection-end-column="86" />
+            <state relative-caret-position="249">
+              <caret line="28" column="8" lean-forward="false" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -121,6 +131,7 @@
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/js/system/player.startup.js" />
         <option value="$PROJECT_DIR$/js/system/player.canvas.js" />
+        <option value="$PROJECT_DIR$/js/lib/weather.class.js" />
         <option value="$PROJECT_DIR$/js/system/player.pop.js" />
       </list>
     </option>
@@ -214,6 +225,18 @@
               <item name="Root" type="cbb8eebc:String" user="Root" />
               <item name="glow" type="cbb8eebc:String" user="glow" />
               <item name="js" type="cbb8eebc:String" user="js" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="glow" type="cbb8eebc:String" user="glow" />
+              <item name="js" type="cbb8eebc:String" user="js" />
+              <item name="anim" type="cbb8eebc:String" user="anim" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="glow" type="cbb8eebc:String" user="glow" />
+              <item name="js" type="cbb8eebc:String" user="js" />
+              <item name="lib" type="cbb8eebc:String" user="lib" />
             </path>
             <path>
               <item name="Root" type="cbb8eebc:String" user="Root" />
@@ -492,11 +515,18 @@
       <option name="project" value="LOCAL" />
       <updated>1508126667393</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Multi-pane done, POP working.">
+      <created>1508425329371</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1508425329371</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72932000" />
+    <option name="totallyTimeSpent" value="75842000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -543,7 +573,8 @@
     <MESSAGE value="This is a working implementation with control.js down to under 200 lines.&#10;&#10;Going to bed tonight, but this will be ready for work tomorrow." />
     <MESSAGE value="Still chipping away at it. Code is getting much more organized." />
     <MESSAGE value="Adding the beginning of multi-pane" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding the beginning of multi-pane" />
+    <MESSAGE value="Multi-pane done, POP working." />
+    <option name="LAST_COMMIT_MESSAGE" value="Multi-pane done, POP working." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -634,6 +665,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="714">
           <caret line="42" column="9" lean-forward="false" selection-start-line="42" selection-start-column="9" selection-end-line="42" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -781,6 +813,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="714">
           <caret line="42" column="9" lean-forward="false" selection-start-line="42" selection-start-column="9" selection-end-line="42" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -795,16 +828,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/weather.class.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1581">
-          <caret line="93" column="1" lean-forward="false" selection-start-line="93" selection-start-column="1" selection-end-line="93" selection-end-column="1" />
-          <folding>
-            <marker date="1502144837727" expanded="true" signature="19:3716" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -893,10 +916,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/weather.class.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="23" column="5" lean-forward="false" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/system/player.pop.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="49" column="86" lean-forward="true" selection-start-line="49" selection-start-column="86" selection-end-line="49" selection-end-column="86" />
+        <state relative-caret-position="249">
+          <caret line="28" column="8" lean-forward="false" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
           <folding />
         </state>
       </provider>

@@ -26,10 +26,10 @@ player.pop = (function(p) {
     my.send = function() {
         JL().debug("Sending POP.");
         console.log("Sending POP.");
-        //my.filterPop();
+        my.filterPop();
         localforage.getItem('pop').then(function(v) {
-            if (v.length > 200) {
-                var batch = v.splice(0, 200);
+            if (v.length > 500) {
+                var batch = v.splice(0, 500);
             } else {
                 var batch = v;
             }
