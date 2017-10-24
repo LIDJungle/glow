@@ -26,50 +26,51 @@ player.pop = (function(p) {
     my.send = function() {
         JL().debug("Sending POP.");
         console.log("Sending POP.");
-        my.filterPop();
-        localforage.getItem('pop').then(function(v) {
-            if (v.length > 500) {
-                var batch = v.splice(0, 500);
-            } else {
-                var batch = v;
-            }
+        my.filterPop().then(function(){
+            localforage.getItem('pop').then(function(v) {
+                if (v.length > 500) {
+                    var batch = v.splice(0, 500);
+                } else {
+                    var batch = v;
+                }
 
-            if (p.online) {
-                JL().debug("POP records: "+v.length+". Sending: "+batch.length+".");
-                console.log("POP records: "+v.length+". Sending: "+batch.length+".", batch);
-                console.log("DisplayId is ", p.displayId);
-                $.ajax({
-                    type: 'POST',
-                    url: p.popUrl,
-                    data: {
-                        displayId: p.displayId,
-                        pop: batch
-                    }
-                }).done(
-                    function (data) {
-                        JL().debug("Done: Proof of play data successfully sent.\n\n");
-                        console.log("Done: Proof of play data successfully sent.");
-                        localforage.getItem('pop').then(function(pop) {
-                            var b = pop.splice(batch.length, pop.length);
-                            localforage.setItem('pop', b);
-                        });
-                    }
-                ).error(
-                    function (jqXHR, textStatus, errorThrown) {
-                        console.log("POP Error.");
-                        JL().debug(textStatus);
-                        JL().debug(jqXHR);
-                        JL().debug("There was an issue sending POP data to the server.");
-                    }
-                );
-            } else {
-                console.log("POP not sent. We are offline.");
-            }
+                if (p.online) {
+                    JL().debug("POP records: "+v.length+". Sending: "+batch.length+".");
+                    console.log("POP records: "+v.length+". Sending: "+batch.length+".", batch);
+                    console.log("DisplayId is ", p.displayId);
+                    $.ajax({
+                        type: 'POST',
+                        url: p.popUrl,
+                        data: {
+                            displayId: p.displayId,
+                            pop: batch
+                        }
+                    }).done(
+                        function (data) {
+                            JL().debug("Done: Proof of play data successfully sent.\n\n");
+                            console.log("Done: Proof of play data successfully sent.");
+                            localforage.getItem('pop').then(function(pop) {
+                                var b = pop.splice(batch.length, pop.length);
+                                localforage.setItem('pop', b);
+                            });
+                        }
+                    ).error(
+                        function (jqXHR, textStatus, errorThrown) {
+                            console.log("POP Error.");
+                            JL().debug(textStatus);
+                            JL().debug(jqXHR);
+                            JL().debug("There was an issue sending POP data to the server.");
+                        }
+                    );
+                } else {
+                    console.log("POP not sent. We are offline.");
+                }
+            });
         });
     };
 
     my.filterPop = function () {
-        localforage.getItem('pop').then(function(v) {
+        return localforage.getItem('pop').then(function(v) {
             if (v === null) {
                 return;
             }
@@ -82,7 +83,6 @@ player.pop = (function(p) {
             }
             localforage.setItem('pop', v);
         });
-        return 0;
     };
     return my;
 }(player));
