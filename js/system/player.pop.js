@@ -78,10 +78,7 @@ player.pop = (function(p) {
 
     my.filterPop = function () {
         return localforage.getItem('pop').then(function(v) {
-            console.log("In filterPOP start POP entries are "+v.length);
-            if (v === null) {
-                return;
-            }
+            if (v === null) {return;}
             // Foreach POP if displayId doesn't match current, discard. Removes any left over from testing.
             for (var i in v) {
                 if (v[i].displayId !== p.displayId) {
@@ -89,7 +86,6 @@ player.pop = (function(p) {
                     v.splice(i, 1);
                 }
             }
-            console.log("In filterPOP end POP entries are "+v.length);
             localforage.setItem('pop', v);
         });
     };
