@@ -18,8 +18,6 @@ player.data = (function (p) {
 
     my.waitForLocalCache = function () {
         console.log("Waiting for cache");
-
-
         // wait for getStartupParameters to finish before we start getting data.
         localforage.getItem('param').then(function(param){
             if (param === null || param === 'null') {
@@ -29,42 +27,40 @@ player.data = (function (p) {
                 my.timeouts['cache'] = setTimeout(function() {my.waitForLocalCache();}, 500);
             } else {
                 console.log("we have display parameters from server.", param);
-                if (my.firstpass) {
-                    console.log("Running once. We have display parameters in local storage.");
-                    JL().fatalException("Startup parameters: ", param);
-                    p.param = param;
+                JL().fatalException("Startup parameters: ", param);
+                p.param = param;
 
-                    // Set up the canvases
-                    p.canvas.initialize();
-                    // Load fonts
-                    p.fonts.configure();
+                // Set up the canvases
+                p.canvas.initialize();
+                // Load fonts
+                p.fonts.configure();
 
+                // Get schedule and set up external data sources.
+                my.updateSchedule();
+                my.updateWeather();
+                my.updateTides();
 
-                    // Get schedule and set up external data sources.
-                    my.updateSchedule();
-                    my.updateWeather();
-                    my.updateTides();
+                // Start cache watcher for schedule
+                my.waitForScheduleCache();
+            }
+        });
+    };
 
-                    my.firstpass = false;
-                }
-
-                // Wait for schedule
-                localforage.getItem('schedule').then(function(scheduleCache){
-                    if (scheduleCache === null || scheduleCache === 'null') {
-                        p.startup.updateStatus('Getting Schedule...');
-                        clearTimeout(my.timeouts['cache']);
-                        my.timeouts['cache'] = setTimeout(function() {my.waitForLocalCache();}, 500);
-                    } else {
-                        // We wait 5 seconds while the blinker blinks
-                        console.log("We have a schedule.", scheduleCache);
-                        p.startup.updateStatus('Starting up...');
-                        clearTimeout(my.timeouts['main']);
-                        my.timeouts['main'] = setTimeout(function() {
-                            console.log("done blinking, let's get 'er started.");
-                            my.startPlayerLoop(scheduleCache);
-                        }, 5000);
-                    }
-                });
+    my.waitForScheduleCache = function() {
+        // Wait for schedule
+        localforage.getItem('schedule').then(function(scheduleCache){
+            if (scheduleCache === null || scheduleCache === 'null') {
+                p.startup.updateStatus('Getting Schedule...');
+                clearTimeout(my.timeouts['cache']);
+                my.timeouts['cache'] = setTimeout(function() {my.waitForScheduleCache();}, 500);
+            } else {
+                // We wait 5 seconds while the blinker blinks
+                console.log("We have a schedule.", scheduleCache);
+                p.startup.updateStatus('Starting up...');
+                clearTimeout(my.timeouts['main']);
+                my.timeouts['main'] = setTimeout(function() {
+                    my.startPlayerLoop(scheduleCache);
+                }, 5000);
             }
         });
     };
