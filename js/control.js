@@ -2,8 +2,6 @@ var player = (function () {
     var my = {};
     my.dev = true;
 
-    my.timeouts = [];
-    my.time = Date.now();
     my.weather = new Weather();
     my.canvases = [];
     my.displayId = '';
@@ -23,8 +21,6 @@ var player = (function () {
     my.paramUrl = 'http://shineemc.com/api/public/index.php/getDisplay';
     my.pingURL = 'http://shineemc.com/api/public/index.php/ping';
     my.presentationUrl = 'http://shineemc.com/api/public/index.php/loadPresentation';
-
-	//my.presentationUrl = 'http://shineemc.com/shine2/data/fabric/loadPresentation.php';
 
 	my.rebootUrl = 'data/reboot.php';
 	my.updateUrl = 'data/update.php';

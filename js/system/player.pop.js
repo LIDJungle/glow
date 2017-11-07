@@ -1,14 +1,18 @@
 player.pop = (function(p) {
     var my = {};
+    my.time = Date.now();
 
 
     my.add = function (popentries) {
         var pop = [];
         var now = new Date();
+        var diff = now - my.time;
+        console.log("POP Diff is "+diff / 1000+". Change rate is "+p.param[0].cr+".");
+        my.time = Date.now();
         localforage.getItem('pop').then(function(v){
             if (v === null) {pop = [];} else {pop = v;}
             $.each(popentries, function (idx, entry){
-                console.log("Proof of play. Presid: "+entry['presId']+" v: "+entry['version']+" CompanyId: "+entry['coid']+" Count: "+entry['count']);
+                console.log("Proof of play. Presid: "+entry['presId']+" v: "+entry['version']+" CompanyId: "+entry['coid']+" Count: "+entry['count']+" Time: "+(now.getTime() / 1000));
                 pop.push({
                     'displayId': p.displayId,
                     'coid': entry['coid'],
@@ -29,6 +33,7 @@ player.pop = (function(p) {
         my.filterPop().then(function(){
             localforage.getItem('pop').then(function(v) {
                 if(v === null){return;}
+                console.log("In send start POP entries are "+v.length);
                 if (v.length > 500) {
                     var batch = v.splice(0, 500);
                 } else {
@@ -52,6 +57,7 @@ player.pop = (function(p) {
                             console.log("Done: Proof of play data successfully sent.");
                             localforage.getItem('pop').then(function(pop) {
                                 var b = pop.splice(batch.length, pop.length);
+                                console.log("Removed batch setting pop entries to "+b.length);
                                 localforage.setItem('pop', b);
                             });
                         }
@@ -72,6 +78,7 @@ player.pop = (function(p) {
 
     my.filterPop = function () {
         return localforage.getItem('pop').then(function(v) {
+            console.log("In filterPOP start POP entries are "+v.length);
             if (v === null) {
                 return;
             }
@@ -82,6 +89,7 @@ player.pop = (function(p) {
                     v.splice(i, 1);
                 }
             }
+            console.log("In filterPOP end POP entries are "+v.length);
             localforage.setItem('pop', v);
         });
     };

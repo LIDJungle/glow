@@ -2,6 +2,7 @@ player.canvas = (function (p) {
     var my = {};
     my.currentLoopPosition = 0;
     my.timeouts = [];
+    my.time = Date.now();
     my.currentWall = 'wall1';
     my.nextWall = 'wall2';
     my.walls = {
@@ -13,7 +14,7 @@ player.canvas = (function (p) {
             'jq_object': $('#wall2'),
             'canvases': []
         }
-    }
+    };
 
     my.initialize = function() {
         // Monkey patch in support for anim parameter
@@ -28,7 +29,10 @@ player.canvas = (function (p) {
         fabric.Object.prototype.transparentCorners = false;
     };
 
-    my.change = function (currentPos) {
+    my.change = function () {
+        var diff = Date.now() - my.time;
+        console.log("Change Diff is "+diff / 1000+". Change rate is "+p.param[0].cr+".");
+        my.time = Date.now();
         clearTimeout(my.timeouts['change']);
         my.timeouts['change'] = setTimeout(function(){
             my.walls[my.currentWall].jq_object.css("zIndex", 0);
@@ -36,7 +40,7 @@ player.canvas = (function (p) {
             if (my.currentWall === 'wall1') {my.currentWall = 'wall2'; my.nextWall = 'wall1';} else {my.currentWall = 'wall1'; my.nextWall = 'wall2';}
             my.walls[my.currentWall].jq_object.css("zIndex", 1);
         }, 1000);
-    }
+    };
 
     /*
     Advances the player loop and calls loadPresentation.
@@ -62,7 +66,7 @@ player.canvas = (function (p) {
 
         // destroy old canvases
         $.each(my.walls[my.nextWall].canvases, function (idx, id) {
-            console.log("deleting id "+id);
+            //console.log("deleting id "+id);
             $('#'+id).remove();
         });
         my.walls[my.nextWall].canvases = [];
@@ -87,9 +91,10 @@ player.canvas = (function (p) {
         if (!my.preview) {
             p.pop.add(popStorage);
         }
-        my.change(my.currentLoopPosition);
+        my.change();
         my.currentLoopPosition++;
         clearTimeout(my.timeouts['presentation']);
+        console.log("Setting timeout to be "+p.param[0].cr);
         my.timeouts['presentation'] = setTimeout(function(){my.loadNextPresentation();}, p.param[0].cr * 1000);
     };
 
@@ -175,7 +180,7 @@ player.canvas = (function (p) {
                 break;
 
         } // End Switch
-    }
+    };
 
     my.fit = function (obj) {
         obj.canvas.setZoom(obj.factor);
@@ -183,12 +188,12 @@ player.canvas = (function (p) {
     };
 
     my.isEven = function (n){
-        return my.isNumber(n) && (n % 2 == 0);
+        return my.isNumber(n) && (n % 2 === 0);
     };
 
     my.isNumber = function (n) {
         return n === parseFloat(n);
-    }
+    };
 
     return my;
 }(player));
