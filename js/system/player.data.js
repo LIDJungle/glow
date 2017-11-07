@@ -1,14 +1,16 @@
 player.data = (function (p) {
     var my = {};
     my.timeouts = [];
+    my.firstpass = true;
 
-    my.startDataLoop = function () {
+    my.getStartupParameters = function () {
+        // These functions don't return promises.
         $.when(my.getDisplayId()).then(function () {
+            console.log("Gotten display ID, checking network.");
             $.when(p.network.check(my.pingURL)).then(function () {
+                console.log("Network is "+p.online+" and we're getting our display parameters.");
                 $.when(my.updateDisplayParameters()).then(function () {
-                    my.updateSchedule();
-                    my.updateWeather();
-                    my.updateTides();
+                    console.log("Finished getting display parameters. Showing startup presentation.");
                 });
             });
         });
@@ -17,34 +19,48 @@ player.data = (function (p) {
     my.waitForLocalCache = function () {
         console.log("Waiting for cache");
 
-        // Load fonts
-        p.fonts.configure();
 
-        // No good starting the player without params.
+        // wait for getStartupParameters to finish before we start getting data.
         localforage.getItem('param').then(function(param){
             if (param === null || param === 'null') {
-                p.error = 'Local display parameters not found, waiting on Cloud.';
+                console.log("waiting for display parameters from server.");
+                p.startup.updateStatus('Getting Display Parameters...');
                 clearTimeout(my.timeouts['cache']);
-                my.timeouts['cache'] = setTimeout(function() {my.waitForLocalCache();}, 100);
+                my.timeouts['cache'] = setTimeout(function() {my.waitForLocalCache();}, 500);
             } else {
-                JL().fatalException("Startup parameters: ", param);
-                p.param = param;
+                console.log("we have display parameters from server.", param);
+                if (my.firstpass) {
+                    console.log("Running once. We have display parameters in local storage.");
+                    JL().fatalException("Startup parameters: ", param);
+                    p.param = param;
 
-                // Set up the canvases and get the schedule
-                p.canvas.initialize();
+                    // Set up the canvases
+                    p.canvas.initialize();
+                    // Load fonts
+                    p.fonts.configure();
 
-                // Show startup presentation
-                p.startup.start();
 
+                    // Get schedule and set up external data sources.
+                    my.updateSchedule();
+                    my.updateWeather();
+                    my.updateTides();
+
+                    my.firstpass = false;
+                }
+
+                // Wait for schedule
                 localforage.getItem('schedule').then(function(scheduleCache){
-                    if (scheduleCache === 'null') {
-                        p.error = 'Local schedule not found, waiting on Cloud.';
+                    if (scheduleCache === null || scheduleCache === 'null') {
+                        p.startup.updateStatus('Getting Schedule...');
                         clearTimeout(my.timeouts['cache']);
-                        my.timeouts['cache'] = setTimeout(function() {my.waitForLocalCache();}, 100);
+                        my.timeouts['cache'] = setTimeout(function() {my.waitForLocalCache();}, 500);
                     } else {
                         // We wait 5 seconds while the blinker blinks
+                        console.log("We have a schedule.", scheduleCache);
+                        p.startup.updateStatus('Starting up...');
                         clearTimeout(my.timeouts['main']);
                         my.timeouts['main'] = setTimeout(function() {
+                            console.log("done blinking, let's get 'er started.");
                             my.startPlayerLoop(scheduleCache);
                         }, 5000);
                     }
@@ -87,9 +103,9 @@ player.data = (function (p) {
                 }
             }).done(
                 function (data) {
-                    console.log("Memory usage", performance.memory);
-                    var mem = window.performance.memory;
-                    JL().debug("Total Memory "+mem.jsHeapSizeLimit+" Used memory "+mem.usedJSHeapSize);
+                    //console.log("Memory usage", performance.memory);
+                    //var mem = window.performance.memory;
+                    //JL().debug("Total Memory "+mem.jsHeapSizeLimit+" Used memory "+mem.usedJSHeapSize);
                     p.restart = false;
                     localforage.setItem('schedule', data).then(function(v) {
                         // Do stuff here.
@@ -145,7 +161,7 @@ player.data = (function (p) {
             p.preview = true;
             $('.dimmer').hide();
         } else {
-            var a = $.ajax({
+            return $.ajax({
                 type: 'GET',
                 url: p.localDisplayUrl
             }).done(
@@ -159,13 +175,13 @@ player.data = (function (p) {
                     }
                 }
             );
-            return a;
         }
     };
 
     my.updateDisplayParameters = function () {
+        var deferred = $.Deferred();
         if (p.online) {
-            return $.ajax(
+            $.ajax(
                 {type: 'GET', url: p.paramUrl, data: {id: p.displayId, online: p.online}}
             ).done(
                 function(d) {
@@ -183,22 +199,22 @@ player.data = (function (p) {
                 }
             ).error(
                 function() {
-                    JL().debug("Could not get param from AJAX call. Checking network.");
+                    JL().debug("Could not get param from AJAX call.");
                     localforage.getItem('param').then(function(param){
                         p.param = param;
                     });
                     p.online = false;
                     clearTimeout(my.timeouts['param']);
                     my.timeouts['param'] = setTimeout(function(){my.updateDisplayParameters();}, p.paramUpdate * 1000);
-                    //my.timeouts['schedule'] = setTimeout(function(){my.updateSchedule();}, 1000);
                 }
             );
         } else {
-            JL().debug("Could not get param. Not online.");
+            JL().debug("Could not get display parameters. Not online.");
             my.network.check(my.pingURL);
             clearTimeout(my.timeouts['param']);
-            my.timeouts['param'] = setTimeout(function(){my.updateParam();}, 1000);
+            my.timeouts['param'] = setTimeout(function(){my.updateDisplayParameters();}, 1000);
         }
+        deferred.resolve();
     };
 
     my.updateWeather = function () {

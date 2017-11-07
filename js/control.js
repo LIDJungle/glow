@@ -1,7 +1,6 @@
 var player = (function () {
     var my = {};
-    my.dev = false;
-
+    my.dev = true;
 
     my.timeouts = [];
     my.time = Date.now();
@@ -11,14 +10,8 @@ var player = (function () {
     my.schedule = {};
     my.online = '';
     my.param = [];
-    my.error = '';
 	my.restart = true;
     my.preview = false;
-    my.forage = false;
-
-    my.multi = true;
-    my.multiStyle = '4up';
-
 
 	// Configuration
 	my.version = "1.0";
@@ -41,6 +34,11 @@ var player = (function () {
      *   init starts the player.
      *   call from doc.body.onload
      *
+     *
+     *  Note that from a design standpoint... We don't want the cache/player loop to require that any data connection be "good".
+     *
+     *  So, get startup parameters should run independently of waitForLocalCache. That's by design.
+     *  If we already have parameters and a schedule cached, we should start to play.
      */
 
     my.init = function() {
@@ -49,12 +47,15 @@ var player = (function () {
         my.mode = my.utility.get_var('mode');
         my.canvas.initialize();
 
+        if(my.dev){localforage.clear();}
         // Handle playlist only mode from website
         if (my.mode === 'playlist') {
             my.website.startPlaylistMode();
         } else {
+            // Show startup diagnostic presentation
+            my.startup.start();
             // Start getting data
-            my.data.startDataLoop();
+            my.data.getStartupParameters();
             // Watch cache and start player when ready
             my.data.waitForLocalCache();
         }

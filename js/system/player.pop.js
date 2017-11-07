@@ -28,6 +28,7 @@ player.pop = (function(p) {
         console.log("Sending POP.");
         my.filterPop().then(function(){
             localforage.getItem('pop').then(function(v) {
+                if(v === null){return;}
                 if (v.length > 500) {
                     var batch = v.splice(0, 500);
                 } else {

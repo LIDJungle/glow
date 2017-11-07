@@ -115,6 +115,14 @@ player.canvas = (function (p) {
             ids.push(my.nextWall+'_canvas'+i);
         }
         //console.log("Creating ids: ", ids);
+
+        // Set a default height and width to be used if parameters cannot be found.
+        var height = 80;
+        var width = 160;
+        if (typeof(p.param[0]) !== 'undefined') {
+            height = p.param[0].h;
+            width = p.param[0].w;
+        }
         switch (type) {
             case 'single':
                 // Build canvas
@@ -130,8 +138,8 @@ player.canvas = (function (p) {
                     p.canvases[idx] = {};
                     p.canvases[idx].canvas = new fabric.StaticCanvas(id);
                     p.canvases[idx].factor = 1;
-                    p.canvases[idx].canvas.setWidth(p.param[0].w);
-                    p.canvases[idx].canvas.setHeight(p.param[0].h);
+                    p.canvases[idx].canvas.setWidth(width);
+                    p.canvases[idx].canvas.setHeight(height);
                     my.walls[my.nextWall].canvases.push(id);
                 });
 
@@ -150,19 +158,19 @@ player.canvas = (function (p) {
                     p.canvases[idx] = {};
                     p.canvases[idx].canvas = new fabric.StaticCanvas(id);
                     p.canvases[idx].factor = .5;
-                    p.canvases[idx].canvas.setWidth((p.param[0].w / 2));
-                    p.canvases[idx].canvas.setHeight((p.param[0].h / 2));
+                    p.canvases[idx].canvas.setWidth((width / 2));
+                    p.canvases[idx].canvas.setHeight((height / 2));
                     my.walls[my.nextWall].canvases.push(id);
                     //console.log("Created "+id);
                 });
 
                 // Position canvases
                 my.walls[my.nextWall].jq_object.find('canvas:nth-child(2)').css({top: '0',
-                    left: (p.param[0].w / 2)});
-                my.walls[my.nextWall].jq_object.find('canvas:nth-child(3)').css({top: (p.param[0].h / 2),
+                    left: (width / 2)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(3)').css({top: (height / 2),
                     left: '0'});
-                my.walls[my.nextWall].jq_object.find('canvas:nth-child(4)').css({top: (p.param[0].h / 2),
-                    left: (p.param[0].w / 2)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(4)').css({top: (height / 2),
+                    left: (width / 2)});
 
                 break;
 
