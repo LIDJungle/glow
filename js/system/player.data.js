@@ -1,7 +1,6 @@
 player.data = (function (p) {
     var my = {};
     my.timeouts = [];
-    my.firstpass = true;
 
     my.getStartupParameters = function () {
         // These functions don't return promises.

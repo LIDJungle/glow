@@ -178,7 +178,96 @@ player.canvas = (function (p) {
                     left: (width / 2)});
 
                 break;
+            case '9up':
+                // Build canvases
+                $.each(ids, function(idx, id){
+                    console.log("Id is ", id);
+                    $('<canvas>').attr({
+                        id: id
+                    }).css({
+                        position: 'absolute',
+                        top: '0',
+                        left: '0'
+                    }).appendTo('#'+my.nextWall);
+                    p.canvases[idx] = {};
+                    p.canvases[idx].canvas = new fabric.StaticCanvas(id);
+                    p.canvases[idx].factor = .33;
+                    p.canvases[idx].canvas.setWidth((width / 3));
+                    p.canvases[idx].canvas.setHeight((height / 3));
+                    my.walls[my.nextWall].canvases.push(id);
+                    //console.log("Created "+id);
+                });
+                // Position canvases
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(2)').css({top: '0',
+                    left: (width / 3)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(3)').css({top: '0',
+                    left: ((width / 3) * 2)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(4)').css({top: (height / 3),
+                    left: '0'});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(5)').css({top: (height / 3),
+                    left: (width / 3)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(6)').css({top: (height / 3),
+                    left: ((width / 3) * 2)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(7)').css({top: ((height / 3) * 2),
+                    left: '0'});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(8)').css({top: ((height / 3) * 2),
+                    left: (width / 3)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(9)').css({top: ((height / 3) * 2),
+                    left: ((width / 3) * 2)});
 
+                break;
+
+            case '16up':
+                $.each(ids, function(idx, id){
+                    console.log("Id is ", id);
+                    $('<canvas>').attr({
+                        id: id
+                    }).css({
+                        position: 'absolute',
+                        top: '0',
+                        left: '0'
+                    }).appendTo('#'+my.nextWall);
+                    p.canvases[idx] = {};
+                    p.canvases[idx].canvas = new fabric.StaticCanvas(id);
+                    p.canvases[idx].factor = .25;
+                    p.canvases[idx].canvas.setWidth((width / 4));
+                    p.canvases[idx].canvas.setHeight((height / 4));
+                    my.walls[my.nextWall].canvases.push(id);
+                    //console.log("Created "+id);
+                });
+
+                // Position canvases
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(2)').css({top: '0',
+                    left: (width / 4)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(3)').css({top: '0',
+                    left: ((width / 4) * 2)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(4)').css({top: '0',
+                    left: ((width / 4) * 3)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(5)').css({top: (height / 4),
+                    left: '0'});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(6)').css({top: (height / 4),
+                    left: (width / 4)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(7)').css({top: (height / 4),
+                    left: ((width / 4) * 2)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(8)').css({top: (height / 4),
+                    left: ((width / 4) * 3)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(9)').css({top: ((height / 4) * 2),
+                    left: '0'});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(10)').css({top: ((height / 4) * 2),
+                    left: (width / 4)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(11)').css({top: ((height / 4) * 2),
+                    left: ((width / 4) * 2)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(12)').css({top: ((height / 4) * 2),
+                    left: ((width / 4) * 3)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(13)').css({top: ((height / 4) * 3),
+                    left: '0'});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(14)').css({top: ((height / 4) * 3),
+                    left: (width / 4)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(15)').css({top: ((height / 4) * 3),
+                    left: ((width / 4) * 2)});
+                my.walls[my.nextWall].jq_object.find('canvas:nth-child(16)').css({top: ((height / 4) * 3),
+                    left: ((width / 4) * 3)});
+                break;
         } // End Switch
     };
 
