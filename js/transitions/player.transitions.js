@@ -5,16 +5,19 @@ player.transitions = (function(p){
         //console.log("Transition type: "+typeof(c.transition));
         switch (c.transition) {
             case 'slide-right':
-                slide_right($('.'+ p.canvas.containerClass), p.canvas.getWidth());
+                my.slide_right($('.'+ c.containerClass), c.getWidth());
                 break;
             case 'slide-left':
-                slide_left($('.'+ p.canvas.containerClass), p.canvas.getWidth());
+                my.slide_left($('.'+ c.containerClass), c.getWidth());
                 break;
             case 'wipe-right':
-                wipe_right($('.'+ p.canvas.containerClass), p.canvas.getWidth());
+                my.wipe_right($('.'+ c.containerClass), c.getWidth());
                 break;
             case 'wipe-left':
-                wipe_left($('.'+ p.canvas.containerClass), p.canvas.getWidth());
+                my.wipe_left($('.'+ c.containerClass), c.getWidth());
+                break;
+            default:
+                console.log(c.transition+" is not defined");
                 break;
         }
     };
