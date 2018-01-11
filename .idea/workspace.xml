@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0a09ceba-accd-4510-a3d3-aa06ba4e1705" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/transitions/player.transitions.js" afterPath="$PROJECT_DIR$/js/transitions/player.transitions.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -69,8 +68,8 @@
       <file leaf-file-name="player.canvas.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/system/player.canvas.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1921">
-              <caret line="113" column="47" lean-forward="true" selection-start-line="113" selection-start-column="47" selection-end-line="113" selection-end-column="47" />
+            <state relative-caret-position="808">
+              <caret line="113" column="47" lean-forward="false" selection-start-line="113" selection-start-column="47" selection-end-line="113" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -80,7 +79,7 @@
         <entry file="file://$PROJECT_DIR$/js/transitions/player.transitions.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="272">
-              <caret line="16" column="69" lean-forward="true" selection-start-line="16" selection-start-column="69" selection-end-line="16" selection-end-column="69" />
+              <caret line="16" column="69" lean-forward="false" selection-start-line="16" selection-start-column="69" selection-end-line="16" selection-end-column="69" />
               <folding>
                 <marker date="1514911440940" expanded="true" signature="1402:1408" ph=" " />
                 <marker date="1514911440940" expanded="true" signature="1810:1816" ph=" " />
@@ -186,7 +185,7 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="2544" />
+    <option name="x" value="2554" />
     <option name="y" value="1" />
     <option name="width" value="1696" />
     <option name="height" value="1026" />
@@ -207,35 +206,12 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
+      <pane id="Scratches">
+        <subPane>
           <expand>
             <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="glow" type="cbb8eebc:String" user="glow" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="glow" type="cbb8eebc:String" user="glow" />
-              <item name="js" type="cbb8eebc:String" user="js" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="glow" type="cbb8eebc:String" user="glow" />
-              <item name="js" type="cbb8eebc:String" user="js" />
-              <item name="anim" type="cbb8eebc:String" user="anim" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="glow" type="cbb8eebc:String" user="glow" />
-              <item name="js" type="cbb8eebc:String" user="js" />
-              <item name="lib" type="cbb8eebc:String" user="lib" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="glow" type="cbb8eebc:String" user="glow" />
-              <item name="js" type="cbb8eebc:String" user="js" />
-              <item name="system" type="cbb8eebc:String" user="system" />
+              <item name="" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Scratches" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
             </path>
           </expand>
           <select />
@@ -275,12 +251,35 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches">
-        <subPane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
           <expand>
             <path>
-              <item name="" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-              <item name="Scratches" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="glow" type="cbb8eebc:String" user="glow" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="glow" type="cbb8eebc:String" user="glow" />
+              <item name="js" type="cbb8eebc:String" user="js" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="glow" type="cbb8eebc:String" user="glow" />
+              <item name="js" type="cbb8eebc:String" user="js" />
+              <item name="anim" type="cbb8eebc:String" user="anim" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="glow" type="cbb8eebc:String" user="glow" />
+              <item name="js" type="cbb8eebc:String" user="js" />
+              <item name="lib" type="cbb8eebc:String" user="lib" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="glow" type="cbb8eebc:String" user="glow" />
+              <item name="js" type="cbb8eebc:String" user="js" />
+              <item name="system" type="cbb8eebc:String" user="system" />
             </path>
           </expand>
           <select />
@@ -330,7 +329,8 @@
       <workItem from="1510000362601" duration="11336000" />
       <workItem from="1510840608664" duration="1251000" />
       <workItem from="1512140447096" duration="2846000" />
-      <workItem from="1513178741963" duration="4471000" />
+      <workItem from="1513178741963" duration="5098000" />
+      <workItem from="1515510458357" duration="633000" />
     </task>
     <task id="LOCAL-00001" summary="Getting started">
       <created>1502165545930</created>
@@ -472,17 +472,23 @@
       <option name="project" value="LOCAL" />
       <updated>1513104687881</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Added 4, 9, and 16 multipane">
+      <created>1515102507223</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1515102507223</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="110599000" />
+    <option name="totallyTimeSpent" value="111859000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2552" y="-8" width="1696" height="1026" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14180928" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14364304" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32921347" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32968238" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -517,7 +523,8 @@
     <MESSAGE value="Adding the beginning of multi-pane" />
     <MESSAGE value="Multi-pane done, POP working." />
     <MESSAGE value="Clean up of early timing loops. Check of inputs for weather and tides so we don't get type errors. Set default for canvas and status messaging for startup." />
-    <option name="LAST_COMMIT_MESSAGE" value="Clean up of early timing loops. Check of inputs for weather and tides so we don't get type errors. Set default for canvas and status messaging for startup." />
+    <MESSAGE value="Added 4, 9, and 16 multipane" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added 4, 9, and 16 multipane" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -825,7 +832,7 @@
     <entry file="file://$PROJECT_DIR$/js/transitions/player.transitions.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
-          <caret line="16" column="69" lean-forward="true" selection-start-line="16" selection-start-column="69" selection-end-line="16" selection-end-column="69" />
+          <caret line="16" column="69" lean-forward="false" selection-start-line="16" selection-start-column="69" selection-end-line="16" selection-end-column="69" />
           <folding>
             <marker date="1514911440940" expanded="true" signature="1402:1408" ph=" " />
             <marker date="1514911440940" expanded="true" signature="1810:1816" ph=" " />
@@ -835,8 +842,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/system/player.canvas.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1921">
-          <caret line="113" column="47" lean-forward="true" selection-start-line="113" selection-start-column="47" selection-end-line="113" selection-end-column="47" />
+        <state relative-caret-position="808">
+          <caret line="113" column="47" lean-forward="false" selection-start-line="113" selection-start-column="47" selection-end-line="113" selection-end-column="47" />
           <folding />
         </state>
       </provider>
