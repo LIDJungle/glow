@@ -2,3 +2,4 @@ logs/*
 .idea/*
 logs/~js_log_player.txt_2017-08-07
 .idea/workspace.xml
+/logs/
